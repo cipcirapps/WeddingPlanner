@@ -75,7 +75,7 @@ export default {
       this.$store.dispatch('update_Sosit',{famid:id,venit:true})      
     },    
     UnsetSosit(id){
-      this.$store.dispatch('update_Sosit',{famid:id,venit:true})
+      this.$store.dispatch('update_Sosit',{famid:id,venit:false})
       
     },
 
