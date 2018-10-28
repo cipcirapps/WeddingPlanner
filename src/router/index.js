@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cip from '@/components/Cip'
-import Ramo from '@/components/Ramo'
-
+import Dashboard from '@/components/Dashboard'
+import confirmed from '@/components/confirmed'
+import view_all from '@/components/view_all'
+import layout from '@/components/layout'
+import add_new from '@/components/add_new'
+import Cip from '@/components/test/cip'
+import Ramo from '@/components/test/ramo'
 
 Vue.use(Router)
 
@@ -10,16 +14,36 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Dashboard',
+      component: Dashboard
+    },
+    {
+      path: '/confirmed',
+      name: 'confirmed',
+      component: confirmed
+    },
+    {
+      path: '/view_all',
+      name: 'view_all',
+      component: view_all
+    },
+    {
+      path: '/layout',
+      name: 'layout',
+      component: layout
+    },
+    {
+      path: '/add_new:id',
+      name: 'add_new',
+      component: add_new
+    },
+    {
+      path: '/cip',
       name: 'Cip',
       component: Cip
     },
     {
-      path: '/Cip',
-      name: 'HelloWorld',
-      component: Cip
-    },
-    {
-      path: '/Ramo',
+      path: '/ramo',
       name: 'Ramo',
       component: Ramo
     }

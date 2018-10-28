@@ -1,4 +1,4 @@
-# wedding
+# weading_planner
 
 > A Vue.js project
 

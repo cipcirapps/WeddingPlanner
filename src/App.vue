@@ -1,55 +1,76 @@
 <template>
-  <v-app id="inspire">
-    <!-- meniu stanga -->
-    <v-navigation-drawer
+  <v-app>
+    <!-- left menu -->
+    <v-navigation-drawer 
       v-model="drawer"
       fixed
       app
-    >
+      >
       <v-list dense>
-        <v-list-tile >
-          <v-list-tile-action>            
-            <!-- de cautat cum se pune -->
-            <router-link to="/"><v-icon>home</v-icon></router-link>
-          </v-list-tile-action>
+        <v-list-tile to="/" >
           <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
+            Dashboard
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile >
+        <v-list-tile 
+          v-for="item in menuItems" 
+          :key="item.title"
+          :to="item.link">
           <v-list-tile-action>
-            <router-link to="/Ramo"><v-icon>contact_mail</v-icon></router-link>
+            <v-icon left>{{item.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Ramo</v-list-tile-title>
+            <v-list-tile-title>{{item.title}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-      </v-list>
+      </v-list>      
     </v-navigation-drawer>
+  <!-- top toolbar -->
+    <v-toolbar dark class="primary"  >
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-sm-and-up">
 
-    <!-- Menu bar -->
-    <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      </v-toolbar-side-icon>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor:pointer">Dashboard</router-link>
+        </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn 
+          flat v-for="item in menuItems" 
+          :key="item.title"
+           :to="item.link">
+          <v-icon left>{{item.icon}}</v-icon>
+          {{item.title}}
+        </v-btn>
+      </v-toolbar-items>
     </v-toolbar>
 
-    <!-- Main content -->
-      <router-view/>
-
-    <v-footer color="indigo" app>
-      <span class="white--text">&copy; Ciresaru</span>
-    </v-footer>
+    <!-- main section -->
+    
+    <v-content>
+      <router-view></router-view>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-import Cip from "./components/Cip"
+export default {
+  data() {
+    return {
+      drawer: false,
 
-  export default {
-    name:'App',
-    components: {Cip},
-    data: () => ({
-      drawer: null,
-    })
-  }
+      menuItems: [
+        { icon: "done", title: "Confirmati",link:"/confirmed" },
+        { icon: "people", title: "Toti invitatii",link:"/view_all" },
+        { icon: "view_module", title: "Asezare",link:"/layout" },
+        { icon: "person_add", title: "Adauga",link:"/add_new" },
+
+        { icon: "supervisor_account", title: "Test Cip",link:"/cip" },
+        { icon: "person", title: "Test Ramo",link:"/ramo" },
+      ]
+    };
+  },
+  name: "App"
+};
 </script>
