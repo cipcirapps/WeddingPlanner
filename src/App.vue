@@ -1,10 +1,10 @@
 <template>
-  <v-app>
+  <v-app fluid>
     <!-- left menu -->
     <v-navigation-drawer 
       v-model="drawer"
-      fixed
-      app
+      fixed  
+      temporary
       >
       <v-list dense>
         <v-list-tile to="/" >
@@ -26,8 +26,8 @@
       </v-list>      
     </v-navigation-drawer>
   <!-- top toolbar -->
-    <v-toolbar dark class="primary"  >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-sm-and-up">
+    <v-toolbar dark class="primary"  fluid>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up">
 
       </v-toolbar-side-icon>
       <v-toolbar-title>
@@ -35,7 +35,7 @@
         </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-xs-only">
+      <v-toolbar-items class="hidden-sm-and-down">
         <v-btn 
           flat v-for="item in menuItems" 
           :key="item.title"
@@ -48,7 +48,7 @@
 
     <!-- main section -->
     
-    <v-content>
+    <v-content fluid>
       <router-view></router-view>
     </v-content>
   </v-app>
