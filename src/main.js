@@ -17,7 +17,7 @@ import 'firebase/firestore'
 Vue.use(Vuetify, { theme: {
   primary: '#009688',// teal
   secondary: '#424242',
-  accent: '#82B1FF',
+  accent: '#1867c0',
   error: '#FF5252',
   info: '#2196F3',
   success: '#00c853',// green accent-4

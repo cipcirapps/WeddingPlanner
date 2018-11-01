@@ -33,7 +33,7 @@ export default new Router({
       component: layout
     },
     {
-      path: '/add_new:id',
+      path: '/add_new',
       name: 'add_new',
       component: add_new
     },

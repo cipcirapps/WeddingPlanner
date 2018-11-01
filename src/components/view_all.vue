@@ -3,62 +3,51 @@
       <v-layout row wrap  class="mt-2">
       <v-flex xs4 class="text-xs-center">
          <v-text-field            
-            v-model="NameFilter"
+            v-model="FamFilter"
             label="Cauta familie"
+            clearable
           ></v-text-field>
       </v-flex>
     </v-layout>
       <!-- cards -->
-      <v-container grid-list-xl>        
+         <v-container grid-list-xl>        
         <v-layout align-center justify-space-around row wrap>
             <v-flex 
-            xs12 sm4 
+            xs12 sm3 
             v-for="record in invitati" v-bind:key="record.id"> 
                 <v-card >
-                  <v-card-title 
-                  :class="record.sosit?'green':'blue'"
-                  class="pb-2 lighten-1" >
-                      <div>
-                      Familia: <span class="headline mb-0">{{record.familia}}</span>
-                      <div>Locatie : {{record.locatie}}</div>
-                      </div>
-                  </v-card-title>
-                  <v-card-text class="pt-0 mt-2">
-                    <div class="mb-2">Membri:</div>
-                    <v-checkbox
-                    v-for="membru in record['membri']" :key="membru.id"
-                    v-model="selected" 
-                    class="mt-0"
-                    height="5"
-                    :label="membru"
-                    :value="membru">                          
-                    </v-checkbox>
-                  </v-card-text>
-                  <v-card-text class="pt-0 pb-0">
+                  <v-card-title class="pb-2 lighten-1" :class="record.sosit?'green':'blue'">
+                    <div>
+                      <span class="headline mb-0">{{record.prenume}} </span>
+                      <span class="headline mb-0 text-uppercase">{{record.familia}}</span>
+                    </div>
+                  </v-card-title>                 
+                  <v-card-text>
+                    <div>Locatie : {{record.locatie}}</div>
                     <div>Masa: <b>{{record.masa}}</b></div>
-                    <div>Locuri: 
-                      <span v-for="loc in record['locuri']" :key="loc">{{loc}} </span>
+                    <div>Loc: 
+                      <span>{{record.loc}} </span>
                     </div>                    
                   </v-card-text>
-                  <v-card-actions>
-                  <v-btn v-if="!record.sosit" flat color="success" @click="setSosit(record.id)">
-                      <v-icon left dark>done</v-icon>
-                        Sosit
-                  </v-btn>  
-                  <div v-else>
-                    <v-chip class="green lighten-1">
-                      Deja venit
-                    </v-chip>                  
-                    <v-btn  flat color="alert" @click="UnsetSosit(record.id)">
-                      <v-icon left dark>undo</v-icon>
-                        nesosit
-                  </v-btn>  
-                  </div>
+                   <v-card-actions>
+                    <v-btn v-if="!record.sosit" flat color="success" @click="setSosit(record.id)">
+                        <v-icon left dark>done</v-icon>
+                          Sosit
+                    </v-btn>  
+                    <div v-else>
+                      <v-chip class="green lighten-1">
+                        Deja venit
+                      </v-chip>                  
+                      <v-btn  flat color="alert" @click="UnsetSosit(record.id)">
+                        <v-icon left dark>undo</v-icon>
+                          nesosit
+                    </v-btn>  
+                    </div>
                   </v-card-actions>
                 </v-card>
           </v-flex>
         </v-layout>
-      </v-container>
+      </v-container>      
   </v-container>
 </template>
 
@@ -66,7 +55,7 @@
 export default {
   data() {
     return {
-      NameFilter:"",
+      FamFilter:null,
       selected: []
     };
   },
@@ -82,9 +71,9 @@ export default {
   },
   computed: {
     invitati() {
-      var query=this.NameFilter
+      var query=this.FamFilter
 
-      if(query==""){
+      if(query==null){
         return this.$store.getters.SortedInvitati;
       }else{
         return this.$store.getters.SortedInvitati.filter(function(el) {

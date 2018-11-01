@@ -20,8 +20,6 @@ export const store = new Vuex.Store({
       state.invitati= payload
     },
     markSosit(state,FamId){
-      console.log(FamId)
-
       firebase.firestore()
       .collection('Invitati')
       .doc(FamId)
@@ -39,29 +37,46 @@ export const store = new Vuex.Store({
         .onSnapshot(querySnapshot => {
             var fireInvitati=[]
             querySnapshot.forEach(doc => {
+                        
             const data = {
                 id: doc.id,
+                prenume:doc.data().Prenume,
                 familia: doc.data().Familia,
+                // name:doc.data().Name,
                 locatie:doc.data().Locatie,
-                locuri:doc.data().Locuri,
                 masa:doc.data().Masa,
-                membri:doc.data().Membri,
-                sosit:doc.data().Sosit
-
+                loc:doc.data().Loc,
+                famID:doc.data().FamID,
+                sosit:doc.data().Sosit,
             };
                 fireInvitati.push(data)
             });
         commit('updateLoadedInvitati', fireInvitati)            
         });
     },
-    update_Sosit ({commit},payload) {
-      // console.log(payload)
+    update_Sosit ({commit},payload) {      
       firebase.firestore()
       .collection('Invitati')
       .doc(payload.famid)
       .update({
         Sosit:payload.venit
       })    
+    },
+    add_Invitat ({commit},payload) {
+      firebase.firestore()
+      .collection('Invitati')
+      .add({
+        Prenume:payload.Prenume,
+        Familia:payload.Familia,
+        Locatie:payload.Locatie,
+        Masa:0,
+        Loc:0,
+        FamID:"test",    
+        Sosit:false
+      }
+      )
+      
+   
     }
   },
   getters: {
