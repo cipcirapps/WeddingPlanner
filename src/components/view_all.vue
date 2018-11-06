@@ -1,53 +1,49 @@
 <template> 
-  <v-container fluid >
-      <v-layout row wrap  class="mt-2">
-      <v-flex xs4 class="text-xs-center">
-         <v-text-field            
-            v-model="FamFilter"
-            label="Cauta familie"
-            clearable
-          ></v-text-field>
-      </v-flex>
-    </v-layout>
-      <!-- cards -->
-         <v-container grid-list-xl>        
-        <v-layout align-center justify-space-around row wrap>
-            <v-flex 
-            xs12 sm3 
-            v-for="record in invitati" v-bind:key="record.id"> 
-                <v-card >
-                  <v-card-title class="pb-2 lighten-1" :class="record.sosit?'green':'blue'">
-                    <div>
-                      <span class="headline mb-0">{{record.prenume}} </span>
-                      <span class="headline mb-0 text-uppercase">{{record.familia}}</span>
-                    </div>
-                  </v-card-title>                 
-                  <v-card-text>
-                    <div>Locatie : {{record.locatie}}</div>
-                    <div>Masa: <b>{{record.masa}}</b></div>
-                    <div>Loc: 
-                      <span>{{record.loc}} </span>
-                    </div>                    
-                  </v-card-text>
-                   <v-card-actions>
-                    <v-btn v-if="!record.sosit" flat color="success" @click="setSosit(record.id)">
-                        <v-icon left dark>done</v-icon>
-                          Sosit
-                    </v-btn>  
-                    <div v-else>
-                      <v-chip class="green lighten-1">
-                        Deja venit
-                      </v-chip>                  
-                      <v-btn  flat color="alert" @click="UnsetSosit(record.id)">
-                        <v-icon left dark>undo</v-icon>
-                          nesosit
-                    </v-btn>  
-                    </div>
-                  </v-card-actions>
-                </v-card>
-          </v-flex>
+  <v-container fill-width align-center>
+     <v-data-table
+          :headers="headers"
+          :items="invitati"
+          :total-items="2"
+          hide-actions
+          class="elevation-1"          
+        >
+          <template slot="items" slot-scope="props">
+            <td>{{ props.item.familia }}</td>
+            <td>{{ props.item.prenume }}</td>
+            <td>{{ props.item.locatie }}</td>
+            <td>{{ props.item.status }}</td>                 
+            <td  class="text-xs-right">
+              <v-btn flat icon small  class="accent"               
+               :to="'/edit/'+props.item.id"><v-icon small>edit</v-icon></v-btn>
+              </td>     
+          </template>
+        </v-data-table>
+        <v-layout row wrap style="height:50px">
+        In asteptare: {{inAsteptare.length}}
         </v-layout>
-      </v-container>      
+         <v-data-table
+          :headers="headers"
+          :items="inAsteptare"
+          :total-items="2"
+          hide-actions
+          class="elevation-1"          
+        >
+        
+          <template slot="items" slot-scope="props">
+            <td>{{ props.item.familia }}</td>
+            <td>{{ props.item.prenume }}</td>
+            <td>{{ props.item.locatie }}</td>
+            <td>{{ props.item.status }}</td>                 
+            <td  class="text-xs-right">
+              <v-btn flat icon small  class="accent"               
+               :to="'/edit/'+props.item.id"><v-icon small>edit</v-icon></v-btn>
+              </td>     
+          </template>
+        </v-data-table>
+
+      <v-btn icon fixed class="primary" large
+              bottom
+              right :to="'/add_new/'"><v-icon >person_add</v-icon></v-btn>
   </v-container>
 </template>
 
@@ -55,31 +51,29 @@
 export default {
   data() {
     return {
-      FamFilter:null,
-      selected: []
+      headers: [
+          {
+            text: 'Familia', value: 'familia'},
+          { text: 'Prenume', value: 'prenume'},
+          { text: 'Locatie', value: 'locatie'},
+          { text: 'Status', value: 'status'},
+          { text: 'Edit', value: 'status', sortable: false,align: 'right',},
+        ],
     };
   },
   methods:{
-    setSosit(id){
-      this.$store.dispatch('update_Sosit',{famid:id,venit:true})      
-    },    
-    UnsetSosit(id){
-      this.$store.dispatch('update_Sosit',{famid:id,venit:false})
-      
-    },
+   
 
   },
   computed: {
-    invitati() {
-      var query=this.FamFilter
-
-      if(query==null){
-        return this.$store.getters.SortedInvitati;
-      }else{
-        return this.$store.getters.SortedInvitati.filter(function(el) {
-            return el.familia.toLowerCase().indexOf(query.toLowerCase()) > -1;
-        })
-      }
+    invitati(){
+        return this.$store.getters.SortedInvitati
+      },
+    inAsteptare()  {
+      return this.$store.getters.getGroupStatus("In asteptare")
+    },
+    deInvitat()  {
+      return this.$store.getters.getGroupStatus("De invitat")
     }
   }
 };

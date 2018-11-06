@@ -4,6 +4,8 @@ import Dashboard from '@/components/Dashboard'
 import confirmed from '@/components/confirmed'
 import view_all from '@/components/view_all'
 import layout from '@/components/layout'
+
+import edit from '@/components/edit'
 import add_new from '@/components/add_new'
 import Cip from '@/components/test/cip'
 import Ramo from '@/components/test/ramo'
@@ -36,6 +38,11 @@ export default new Router({
       path: '/add_new',
       name: 'add_new',
       component: add_new
+    },
+    {
+      path: '/edit/:id',
+      name: 'edit',
+      component: edit
     },
     {
       path: '/cip',

@@ -37,7 +37,8 @@ export default {
         Prenume: null,
         Familia: "",      
         Locatie: "",      
-        FamID: "asdfsdf"
+        FamID: "asdfsdf",        
+
       },
        noBlankRules: [
         v => !!v || 'Camp obligatoriu'

@@ -7,7 +7,9 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     invitati:[],
-    invitatiNesositi:[]
+    invitatiNesositi:[],
+    statusList:[],
+    groupByStatus:[]
   },
   mutations: {
     updateLoadedInvitati (state, payload) {    
@@ -27,7 +29,6 @@ export const store = new Vuex.Store({
         Sosit:true
       })
     }
-    
   },
   actions: {
     loadInvitati ({commit}) { 
@@ -48,11 +49,20 @@ export const store = new Vuex.Store({
                 loc:doc.data().Loc,
                 famID:doc.data().FamID,
                 sosit:doc.data().Sosit,
+                status:doc.data().Status
             };
                 fireInvitati.push(data)
             });
-        commit('updateLoadedInvitati', fireInvitati)            
+        commit('updateLoadedInvitati', fireInvitati)  
+               
         });
+    },
+    loadStatuses({commit}){
+      firebase.firestore()
+      .collection('Liste')
+      .doc("Status").get().then(item=>{        
+        this.statusList=item.data().Itms 
+      })
     },
     update_Sosit ({commit},payload) {      
       firebase.firestore()
@@ -72,12 +82,38 @@ export const store = new Vuex.Store({
         Masa:0,
         Loc:0,
         FamID:"test",    
+        Status:"De invitat",
         Sosit:false
       }
       )
-      
-   
-    }
+    },
+    update_Invitat ({commit},payload) {      
+      firebase.firestore()
+      .collection('Invitati')
+      .doc(payload.id)
+      .update({
+        Prenume:payload.prenume,
+        Familia:payload.familia,
+        Locatie:payload.locatie,
+        Masa:payload.masa,
+        Loc:payload.loc,
+        FamID:payload.famID,
+        Status:payload.status,//De trimis, invitat, de confirmat, confirmat
+        
+      })
+      .catch(function(error) {        
+        console.error("Error writing document: ", error);
+      })
+    },
+    delete_Invitat({commit},payload) {      
+      firebase.firestore()
+      .collection('Invitati')
+      .doc(payload.id)
+      .delete()
+      .catch(function(error) {        
+        console.error("Error writing document: ", error);
+      })
+    },
   },
   getters: {
     SortedInvitati (state) {
@@ -93,6 +129,37 @@ export const store = new Vuex.Store({
         if (a.familia > b.familia) return 1;
         return 0;
       })
+    },    
+    getInvitat(state) {
+      return (invID) => {
+        return state.invitati.find((om) => {
+          return om.id === invID
+        })
+      }
+    },
+    getGroupStatus(state){
+      return (stat) => {
+        return state.invitati.filter(om=>{
+          return om.status===stat
+        })
+        
+      }
+
+
+
+      // const data={
+      //   asteptare:[],
+      //   invitat:[]
+      // }
+      
+      // state.invitati.forEach(om=>{
+      //   console.log(om.status)
+      //   if (om.status=="In asteptare"){
+      //     data.asteptare.push(om)
+      //   }
+      // })
+      // return data
+
     }
   }
 })

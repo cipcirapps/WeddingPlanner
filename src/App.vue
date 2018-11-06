@@ -50,7 +50,7 @@
     
     <v-content fluid>
       <router-view></router-view>
-    </v-content>
+    </v-content>    
   </v-app>
 </template>
 
@@ -64,7 +64,7 @@ export default {
         { icon: "done", title: "Confirmati",link:"/confirmed" },
         { icon: "people", title: "Toti invitatii",link:"/view_all" },
         { icon: "view_module", title: "Asezare",link:"/layout" },
-        { icon: "person_add", title: "Adauga",link:"/add_new" },
+        // { icon: "person_add", title: "Adauga",link:"/add_new" },
 
         { icon: "supervisor_account", title: "Test Cip",link:"/cip" },
         { icon: "person", title: "Test Ramo",link:"/ramo" },

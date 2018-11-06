@@ -1,13 +1,25 @@
 <template> 
-    <!-- Main content -->
-    
-      <v-container fluid fill-height>
-        <div v-for="om in invitati" :key="om.id">
-          {{om.name}}
+    <!-- Main content -->    
+      <v-container fill-width align-center>
 
-        </div>
-      </v-container>
-    
+        <v-data-table
+          :headers="headers"
+          :items="invitati"
+          :total-items="2"
+          hide-actions
+          class="elevation-1"          
+        >
+          <template slot="items" slot-scope="props">
+            <td>{{ props.item.familia }}</td>
+            <td>{{ props.item.prenume }}</td>
+            <td>{{ props.item.locatie }}</td>
+            <td>{{ props.item.status }}</td>                 
+          </template>
+        </v-data-table>
+
+        
+        
+      </v-container>    
 </template>
 
 <script>
@@ -17,9 +29,20 @@
     props: {
       source: String
     },
+    data(){
+      return{
+         headers: [
+          {
+            text: 'Familia', value: 'familia'},
+          { text: 'Prenume', value: 'prenume'},
+          { text: 'Locatie', value: 'locatie'},
+          { text: 'Status', value: 'status'}
+        ],
+      }
+    },
     computed:{
       invitati(){
-        return this.$store.getters.loadedMeetups
+        return this.$store.getters.SortedInvitati
       }
     }
   //   created() {
