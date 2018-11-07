@@ -48,6 +48,6 @@ new Vue({
     //   }
     // })
     this.$store.dispatch('loadInvitati')
-    this.$store.dispatch('loadStatuses')
+    // this.$store.dispatch('loadStatuses')
   }
 })

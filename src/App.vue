@@ -26,7 +26,7 @@
       </v-list>      
     </v-navigation-drawer>
   <!-- top toolbar -->
-    <v-toolbar dark class="primary"  fluid>
+    <v-toolbar dark class="primary" fluid >
       <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up">
 
       </v-toolbar-side-icon>
@@ -48,7 +48,7 @@
 
     <!-- main section -->
     
-    <v-content fluid>
+    <v-content fluid >
       <router-view></router-view>
     </v-content>    
   </v-app>

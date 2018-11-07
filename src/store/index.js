@@ -9,17 +9,29 @@ export const store = new Vuex.Store({
     invitati:[],
     invitatiNesositi:[],
     statusList:[],
-    groupByStatus:[]
+    groupByStatus:{}
   },
   mutations: {
     updateLoadedInvitati (state, payload) {    
       state.invitatiNesositi=[]
       payload.forEach(invitat =>{                
-        if (!invitat.sosit){          
+        if (!invitat.sosit && invitat.status=="Confirmat"){          
           state.invitatiNesositi.push(invitat)
         }
       })    
       state.invitati= payload
+    },
+    updateStatus (state, payload) {       
+      state.statusList= payload
+      state.groupByStatus={}
+      
+      state.statusList.forEach(stat=>{        
+        state.groupByStatus[stat.replace(" ","_")]=[]
+      })
+      
+      state.invitati.forEach(om=>{
+        state.groupByStatus[om.status.replace(" ","_")].push(om)
+      })
     },
     markSosit(state,FamId){
       firebase.firestore()
@@ -54,16 +66,22 @@ export const store = new Vuex.Store({
                 fireInvitati.push(data)
             });
         commit('updateLoadedInvitati', fireInvitati)  
+        
+          firebase.firestore()
+          .collection('Liste')
+          .doc("Status").get().then(item=>{                
+            commit('updateStatus', item.data().Itms)  
+          })
                
         });
     },
-    loadStatuses({commit}){
-      firebase.firestore()
-      .collection('Liste')
-      .doc("Status").get().then(item=>{        
-        this.statusList=item.data().Itms 
-      })
-    },
+    // loadStatuses({commit}){
+    //   firebase.firestore()
+    //   .collection('Liste')
+    //   .doc("Status").get().then(item=>{                
+    //     commit('updateStatus', item.data().Itms)  
+    //   })
+    // },
     update_Sosit ({commit},payload) {      
       firebase.firestore()
       .collection('Invitati')
@@ -99,7 +117,7 @@ export const store = new Vuex.Store({
         Loc:payload.loc,
         FamID:payload.famID,
         Status:payload.status,//De trimis, invitat, de confirmat, confirmat
-        
+        Sosit:payload.sosit
       })
       .catch(function(error) {        
         console.error("Error writing document: ", error);
@@ -137,28 +155,20 @@ export const store = new Vuex.Store({
         })
       }
     },
+    getStatusList(state){
+      return state.statusList
+    },
     getGroupStatus(state){
-      return (stat) => {
-        return state.invitati.filter(om=>{
-          return om.status===stat
-        })
-        
-      }
-
-
-
-      // const data={
-      //   asteptare:[],
-      //   invitat:[]
-      // }
       
-      // state.invitati.forEach(om=>{
-      //   console.log(om.status)
-      //   if (om.status=="In asteptare"){
-      //     data.asteptare.push(om)
-      //   }
-      // })
-      // return data
+      return state.groupByStatus
+
+      // return (stat) => {
+      //   return state.invitati.filter(om=>{
+      //     return om.status===stat
+      //   })        
+      // }
+
+
 
     }
   }

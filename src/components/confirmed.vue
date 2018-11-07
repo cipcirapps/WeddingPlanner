@@ -37,7 +37,7 @@
                   </v-card-text>
                   <v-card-actions>
                   <v-btn flat color="success" @click="setSosit(record.id)">
-                      <v-icon left dark>done</v-icon>                        
+                      <v-icon left dark>done</v-icon>Sosit                        
                   </v-btn>                    
                   </v-card-actions>
                 </v-card>

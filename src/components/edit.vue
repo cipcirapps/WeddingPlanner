@@ -32,8 +32,12 @@
                         v-model="invitat.loc"
                         :rules="noBlankRules"
                         label="Loc"
-                        required></v-text-field>
-                    <v-flex xs3>
+                        required></v-text-field>                    
+                    <v-checkbox
+                    :label="'Sosit'"
+                    v-model="invitat.sosit"
+                  ></v-checkbox>    
+                    <v-flex xs6>
                     <v-select
                         v-model="invitat.status"
                         :items="statuses"
@@ -87,7 +91,7 @@ export default {
       return this.$store.getters.getInvitat(this.$route.params.id);
     },
     statuses() {
-      return this.$store.statusList;
+      return this.$store.getters.getStatusList;
     }
   },
   methods: {
