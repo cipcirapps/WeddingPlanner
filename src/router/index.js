@@ -5,7 +5,7 @@ import confirmed from '@/components/confirmed'
 import view_all from '@/components/view_all'
 import layout from '@/components/layout'
 
-import edit from '@/components/edit'
+import editInvitat from '@/components/edit_Invitat'
 import add_new from '@/components/add_new'
 import Cip from '@/components/test/cip'
 import Ramo from '@/components/test/ramo'
@@ -40,9 +40,9 @@ export default new Router({
       component: add_new
     },
     {
-      path: '/edit/:id',
-      name: 'edit',
-      component: edit
+      path: '/editInvitat/:gid',
+      name: 'editInvitat',
+      component: editInvitat
     },
     {
       path: '/cip',

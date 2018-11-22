@@ -7,12 +7,12 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-import { store } from './store'
+import { store } from './store/store'
 
-import firebase from 'firebase/app'
-import 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
+// import firebase from 'firebase'
+// import 'firebase/app'
+// import 'firebase/auth'
+// import 'firebase/firestore'
 
 Vue.use(Vuetify, { theme: {
   primary: '#009688',// teal
@@ -32,22 +32,5 @@ new Vue({
   router,
   store,
   components: { App },
-  template: '<App/>',  
-  created () {
-    firebase.initializeApp({
-      apiKey: "AIzaSyACdSmRstYxIbJ0pFq73WZxMC3irMf1Iws",
-      authDomain: "cirwedding-fccd9.firebaseapp.com",
-      databaseURL: "https://cirwedding-fccd9.firebaseio.com",
-      projectId: "cirwedding-fccd9",
-      storageBucket: "cirwedding-fccd9.appspot.com",
-      messagingSenderId: "979671492797"      
-    }).firestore().settings({timestampsInSnapshots: true})
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     this.$store.dispatch('autoSignIn', user)
-    //   }
-    // })
-    this.$store.dispatch('loadInvitati')
-    // this.$store.dispatch('loadStatuses')
-  }
+  template: '<App/>'  
 })

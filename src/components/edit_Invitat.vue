@@ -5,44 +5,45 @@
             <v-flex xs6>
 
                 <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-text-field
-                        v-model="invitat.famID"
+                    <v-text-field disabled
+                        v-model="invitat.GId"
                         :rules="noBlankRules"
                         label="FamID"
                         required></v-text-field>
-                    <v-text-field
-                        v-model="invitat.familia"
+                    <v-text-field disabled
+                        v-model="invitat.Nume"
                         :rules="noBlankRules"
                         label="Familia"></v-text-field>
+                    <v-text-field disabled
+                        v-model="invitat.Locatie"
+                        :rules="noBlankRules"
+                        label="Locatie"></v-text-field>    
                     <v-text-field
-                        v-model="invitat.prenume"
+                        v-model="invitat.Prenume"
                         :rules="noBlankRules"
                         label="Prenume"
                         required></v-text-field>
-                    <v-text-field
-                        v-model="invitat.locatie"
-                        :rules="noBlankRules"
-                        label="Locatie"></v-text-field>
-                    <v-text-field
+                    
+                    <!-- <v-text-field
                         v-model="invitat.masa"
                         :rules="noBlankRules"
                         label="Masa"
-                        required></v-text-field>
+                        required></v-text-field> -->
                     <v-text-field
-                        v-model="invitat.loc"
+                        v-model="invitat.Loc"
                         :rules="noBlankRules"
                         label="Loc"
                         required></v-text-field>                    
                     <v-checkbox
                     :label="'Sosit'"
-                    v-model="invitat.sosit"
+                    v-model="invitat.Sosit"
                   ></v-checkbox>    
                     <v-flex xs6>
-                    <v-select
+                    <!-- <v-select
                         v-model="invitat.status"
                         :items="statuses"
                         box
-                        label="Status"></v-select>
+                        label="Status"></v-select> -->
                     </v-flex>    
 
 
@@ -82,17 +83,18 @@ export default {
       noBlankRules: [v => !!v || "Camp obligatoriu"]
     };
   },
-  // mounted(){
-  //   // this.output=this.invitat
-  // },
+  mounted(){
+    // console.log( this.$route.query.memid)
+    // console.log(  this.$route.params.gid)
+  },
   computed: {
     invitat() {
       // this.show=true;
-      return this.$store.getters.getInvitat(this.$route.params.id);
+      return this.$store.getters.getInvitat({famID:this.$route.params.gid,memID:this.$route.query.memid});
     },
-    statuses() {
-      return this.$store.getters.getStatusList;
-    }
+    // statuses() {
+    //   return this.$store.getters.getStatusList;
+    // }
   },
   methods: {
     submit() {

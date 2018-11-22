@@ -1,35 +1,47 @@
 <template> 
   <v-container fill-width align-center>
     <!-- templatefor     -->
-    <div v-for="(itm ,key) in GroupedStatus" :key="key">
-    
+    <div v-for="(itm ,key,index) in GroupedStatus" :key="index">
+               
         <v-layout row wrap>
           <v-flex xs6 mt-4>            
-            <div class="blue-grey--text darken-4">{{key.replace("_"," ")}} </div>
+            <div class="blue-grey--text darken-4">{{key.replace("_"," ")}} : {{itm.length}} </div>
           </v-flex>
         </v-layout>
         
+        <!-- <div v-for="fam in fams" :key="fam.FamID">          
+          Fam:{{fam.Nume}}
+          <div v-for="mem in fam.Membri" :key="mem.id">
+            {{mem.Prenume}}
+          </div>
+        </div> -->
+
          <v-data-table
           :headers="headers"
           :items="itm"
-          
-          
           class="elevation-1"          
         >
         
           <template slot="items" slot-scope="props">
-            <td>{{ props.item.familia }}</td>
-            <td>{{ props.item.prenume }}</td>
-            <td>{{ props.item.locatie }}</td>                      
-            <td> 
-              <v-icon class="green--text" v-if="props.item.sosit ">check</v-icon>              
-                <v-icon v-else class="orange--text" >directions_run</v-icon>
-              
-              </td>     
-            <td  class="text-xs-right">
-              <v-btn flat icon small  class="accent"               
-               :to="'/edit/'+props.item.id"><v-icon small>edit</v-icon></v-btn>
-              </td>     
+            <td>{{ props.item.Nume }}</td>            
+            <td>{{ props.item.Locatie }}</td>         
+            <td>
+              <v-layout row justify-space-between v-for="(om,key) in props.item.Membri" :key="key">                
+                <v-flex >
+                  {{om.Prenume}}
+                </v-flex>
+                <v-flex >
+                  <v-icon class="green--text" v-if="om.Sosit ">check</v-icon>                
+                  <v-icon v-else class="orange--text" >directions_run</v-icon>
+                </v-flex>
+                <v-layout justify-end>                  
+                    <v-btn flat icon small class="accent" :to="{name:'editInvitat',params:{gid:om.GId},query:{memid:key}}">
+                      <v-icon small>edit</v-icon>
+                    </v-btn>                  
+               </v-layout>              
+              </v-layout>
+            </td>             
+            
           </template>
         </v-data-table>
      </div>
@@ -47,12 +59,13 @@ export default {
     return {
       headers: [
           {
-            text: 'Familia', value: 'familia'},
-          { text: 'Prenume', value: 'prenume'},
+            text: 'Familia', value: 'Nume'},
           { text: 'Locatie', value: 'locatie'},
-          { text: 'Sosit', value: 'sosit'},
-          { text: 'Edit', value: 'status', sortable: false,align: 'right',},
-        ],
+          { text: 'Membri', value: 'prenume', align: 'center'},
+          // { text: 'Sosit', value: 'sosit'},
+          // { text: 'Edit', value: 'status', sortable: false,align: 'right',},
+        ]
+        
     };
   },
   methods:{
@@ -62,7 +75,12 @@ export default {
   computed: {
     GroupedStatus(){
         return this.$store.getters.getGroupStatus
-      }
+      },
+    fams(){
+      return this.$store.getters.getFamilii
+    }  
+
+
     
   }
 };

@@ -47,6 +47,11 @@
     </v-toolbar>
 
     <!-- main section -->
+    <!-- <div v-for="fam in fams" :key="fam.FamID">
+      <div v-for="mem in fam.Membri" :key="mem.id">
+        {{mem.Prenume}}
+        </div>
+    </div> -->
     
     <v-content fluid >
       <router-view></router-view>
@@ -71,6 +76,17 @@ export default {
       ]
     };
   },
-  name: "App"
+  name: "App",
+  computed:{
+    statuses:function(){
+      return this.$store.getters.getStatusList
+    },
+    fams(){
+      return this.$store.getters.getFamilii
+    }
+  },
+  created: function(){
+      this.$store.dispatch("loadFireStatus")
+  }
 };
 </script>

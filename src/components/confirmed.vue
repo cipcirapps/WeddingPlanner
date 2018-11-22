@@ -21,22 +21,25 @@
         <v-layout align-center justify-space-around row wrap>
             <v-flex 
             xs12 sm3 
-            v-for="record in Nesositi" v-bind:key="record.id"> 
-                <v-card >
+            v-for="indiv in Nesositi" v-bind:key="indiv.id"> 
+                <v-card                  
+                v-if="!indiv.Sosit" 
+                class="mb-2"
+                >
                   <v-card-title class="pb-2 blue lighten-1" >
                     <div class="subheading">
-                      <span class="mb-0">{{record.prenume}} </span>
-                      <span class="mb-0 text-uppercase">{{record.familia}}</span>
+                      <span class="mb-0">{{indiv.Prenume}} </span>
+                      <span class="mb-0 text-uppercase">{{indiv.Nume}}</span>
                     </div>
                   </v-card-title>                 
                   <v-card-text>
-                    <div>Locatie : {{record.locatie}}</div>
-                    <v-chip class="cyan lighten-2"><span>Masa: <b>{{record.masa}}</b></span></v-chip>
-                    <v-chip class="teal lighten-3"><span>Loc: {{record.loc}} </span>
+                    <div>Locatie : {{indiv.Locatie}}</div>
+                    <v-chip class="cyan lighten-2"><span>Masa: <b>{{indiv.Masa}}</b></span></v-chip>
+                    <v-chip class="teal lighten-3"><span>Loc: {{indiv.Loc}} </span>
                     </v-chip>
                   </v-card-text>
                   <v-card-actions>
-                  <v-btn flat color="success" @click="setSosit(record.id)">
+                  <v-btn flat color="success" @click="setSosit(indiv.GId,indiv.id)">
                       <v-icon left dark>done</v-icon>Sosit                        
                   </v-btn>                    
                   </v-card-actions>
@@ -56,8 +59,9 @@ export default {
     };
   },
   methods:{
-    setSosit(id){
-      this.$store.dispatch('update_Sosit',{famid:id,venit:true})
+    setSosit(fam, indiv){
+      // console.log(fam,indiv)
+      this.$store.dispatch('update_Sosit',{famid:fam,indivID:indiv})
     },
     CheckMember(recordId,index){
       this.$store.dispatch('update_MembSosit',{famid:recordId,indx:index})
@@ -69,17 +73,16 @@ export default {
       var PrenumeFilter=this.PrenumeFilter
 
       if(FamFilter==null&&PrenumeFilter==null){
-        return this.$store.getters.NesositiSort;
-      }else{
-        return this.$store.getters.NesositiSort.filter(function(el) {
-          // debugger
+        return this.$store.getters.getIndivNesositi;
+      }else{        
+        return this.$store.getters.getIndivNesositi.filter(function(el) {          
           if(FamFilter==null){
-            return el.prenume.toLowerCase().indexOf(PrenumeFilter.toLowerCase()) > -1
+            return el.Prenume.toLowerCase().indexOf(PrenumeFilter.toLowerCase()) > -1
           }
-          if(PrenumeFilter==null){
-            return el.familia.toLowerCase().indexOf(FamFilter.toLowerCase()) > -1
+          if(PrenumeFilter==null){          
+            return el.Nume.toLowerCase().indexOf(FamFilter.toLowerCase()) > -1
           }  
-          return el.familia.toLowerCase().indexOf(FamFilter.toLowerCase()) > -1 && el.prenume.toLowerCase().indexOf(PrenumeFilter.toLowerCase()) > -1
+          return el.Prenume.toLowerCase().indexOf(PrenumeFilter.toLowerCase()) > -1 && el.Nume.toLowerCase().indexOf(FamFilter.toLowerCase()) > -1
         })
       }
     }
