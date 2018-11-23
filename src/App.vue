@@ -54,8 +54,12 @@
     </div> -->
     
     <v-content fluid >
-      <router-view></router-view>
+      <router-view v-if="loaded"></router-view>
+      <v-container v-else fill-width align-center>
+        <v-progress-linear  :indeterminate="true"></v-progress-linear>
+      </v-container>
     </v-content>    
+
   </v-app>
 </template>
 
@@ -66,27 +70,27 @@ export default {
       drawer: false,
 
       menuItems: [
-        { icon: "done", title: "Confirmati",link:"/confirmed" },
-        { icon: "people", title: "Toti invitatii",link:"/view_all" },
-        { icon: "view_module", title: "Asezare",link:"/layout" },
+        { icon: "done", title: "Confirmati", link: "/confirmed" },
+        { icon: "people", title: "Toti invitatii", link: "/view_all" },
+        { icon: "view_module", title: "Asezare", link: "/layout" },
         // { icon: "person_add", title: "Adauga",link:"/add_new" },
 
-        { icon: "supervisor_account", title: "Test Cip",link:"/cip" },
-        { icon: "person", title: "Test Ramo",link:"/ramo" },
+        { icon: "supervisor_account", title: "Test Cip", link: "/cip" },
+        { icon: "person", title: "Test Ramo", link: "/ramo" }
       ]
     };
   },
   name: "App",
-  computed:{
-    statuses:function(){
-      return this.$store.getters.getStatusList
+  computed: {
+    statuses: function() {
+      return this.$store.getters.getStatusList;
     },
-    fams(){
-      return this.$store.getters.getFamilii
+    fams() {
+      return this.$store.getters.getFamilii;
+    },
+    loaded() {
+      return this.$store.getters.loaded;
     }
-  },
-  created: function(){
-      this.$store.dispatch("loadFireStatus")
   }
 };
 </script>

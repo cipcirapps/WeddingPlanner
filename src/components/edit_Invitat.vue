@@ -49,24 +49,28 @@
 
                 </v-form>
             </v-flex>
-        </v-layout>
+        </v-layout>        
+         <!-- footer nav -->
         <v-footer  height="auto" class="pa-3">   
          <v-layout
           justify-center
           row
           wrap
         >       
-          <v-flex xs4>
-            <v-btn  @click="submit" color="accent">Update</v-btn>
-          </v-flex>
-            <!-- <v-spacer></v-spacer> -->
-          
-            <v-btn icon                
-                @click="deleteOm()" color="error"><v-icon>delete_forever</v-icon>
-            </v-btn>
-          
+            <v-flex xs4>
+              <v-btn  @click="submit" color="accent">Update</v-btn>
+              <v-btn color="black" outline :to="'/'">Cancel</v-btn>          
+            </v-flex>
           </v-layout>
         </v-footer>
+
+        <v-btn fab small 
+        @click="deleteOm()" 
+        color="error"
+        fixed bottom right>
+          <v-icon >delete_forever</v-icon>
+        </v-btn>
+        <!-- footer nav end-->
     </v-container>
 </template>
 
@@ -83,15 +87,18 @@ export default {
       noBlankRules: [v => !!v || "Camp obligatoriu"]
     };
   },
-  mounted(){
+  mounted() {
     // console.log( this.$route.query.memid)
     // console.log(  this.$route.params.gid)
   },
   computed: {
     invitat() {
       // this.show=true;
-      return this.$store.getters.getInvitat({famID:this.$route.params.gid,memID:this.$route.query.memid});
-    },
+      return this.$store.getters.getInvitat({
+        famID: this.$route.params.gid,
+        memID: this.$route.query.memid
+      });
+    }
     // statuses() {
     //   return this.$store.getters.getStatusList;
     // }
