@@ -32,23 +32,23 @@
             </td>            
             <td>{{ props.item.Locatie }}</td>         
             <td>
-              <v-container fluid>                
-
-                  <v-layout row v-for="(om,key,index) in props.item.Membri" :key="key"
+              <v-container grid-list-md text-xs-center>
+                  <v-layout row 
+                  v-for="(om,key,index) in props.item.Membri" :key="key"
                   :class="{BtmBorder: index< Object.keys(props.item.Membri).length-1}">              
-                      <v-layout justify-start>
+                      <v-flex xs4>
                         {{om.Prenume}}
-                      </v-layout>              
-                      <v-layout justify-center>  
+                      </v-flex>              
+                      <v-flex xs4>  
                         <v-icon class="green--text" v-if="om.Sosit ">check</v-icon>                
                         <v-icon v-else class="orange--text" >directions_run</v-icon>
-                      </v-layout>              
-                      <v-layout justify-end>                  
+                      </v-flex>              
+                      <v-flex xs4 style="text-align:right"> 
                           <v-btn flat icon small class="accent" 
                           :to="{name:'editInvitat',params:{gid:om.GId},query:{memid:key}}">
                             <v-icon small>edit</v-icon>
                           </v-btn>                  
-                    </v-layout>              
+                    </v-flex>              
                   
                 </v-layout>
               </v-container>

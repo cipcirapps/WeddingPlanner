@@ -48,21 +48,24 @@
           >{{om}}</v-chip>
         
         </v-layout>
-        <!-- <div v-for="fam in famObj" :key="fam.id">
-          <span v-if="fam.id==output.FamID">
-            Label: {{ fam.nume }}<br />
-            Membri:
-            <div
-              v-for="memb in fam.membr"
-              :key="memb"
-              style="background-color:lightgrey"
-            >
-              {{ memb }}
-            </div>
-          </span>
-        </div> -->
+            <!-- footer nav -->
+        <v-footer  height="auto" class="pa-3">   
+         <v-layout
+          justify-center
+          row
+          wrap
+        >       
+            <v-flex xs4>
+              <v-btn  @click="submit" color="accent">Update</v-btn>
+            </v-flex>
+            <v-flex xs4>  
+              <v-btn color="black" outline :to="'/'">Cancel</v-btn>          
+            </v-flex>
+          </v-layout>
+        </v-footer>
 
-        <v-btn @click="submit" color="accent">submit</v-btn>
+        <!-- footer nav end-->        
+        
       </v-form>
     </v-flex>
   </v-layout>

@@ -7,6 +7,11 @@ import router from "./router";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
+import 'chart.js'
+
+
 import { store } from "./store/store";
 
 // import firebase from 'firebase'
@@ -22,10 +27,12 @@ Vue.use(Vuetify, {
     error: "#FF5252",
     info: "#2196F3",
     success: "#00c853", // green accent-4
-    warning: "#FFC107"
+    warning: "#FFC107",
+    veniti:"#a0cfff",
+    nesositi:"#ffc107"
   }
 });
-
+Vue.use(VueChartkick, { Chartkick })
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

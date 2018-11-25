@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Dashboard from "@/components/Dashboard";
+import conf_notArr from "@/components/conf_notArr";
 import confirmed from "@/components/confirmed";
 import view_all from "@/components/view_all";
 import layout from "@/components/layout";
@@ -25,6 +26,11 @@ export default new Router({
       path: "/confirmed",
       name: "confirmed",
       component: confirmed
+    },
+    {
+      path: "/conf_notArr",
+      name: "conf_notArr",
+      component: conf_notArr
     },
     {
       path: "/view_all",

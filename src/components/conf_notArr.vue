@@ -21,12 +21,11 @@
         <v-layout align-center justify-space-around row wrap>
             <v-flex 
             xs12 sm3 
-            v-for="indiv in Invitati" v-bind:key="indiv.id"> 
-                <v-card
+            v-for="indiv in Nesositi" v-bind:key="indiv.id"> 
+                <v-card                
                 class="mb-2"
                 >
-                  <v-card-title class="pb-2" 
-                  :class="indiv.Sosit?'veniti':'nesositi'">
+                  <v-card-title class="pb-2 nesositi" >
                     <div class="subheading">
                       <span class="mb-0">{{indiv.Prenume}} </span>
                       <span class="mb-0 text-uppercase">{{indiv.Nume}}</span>
@@ -39,17 +38,9 @@
                     </v-chip>
                   </v-card-text>
                   <v-card-actions>
-                  <v-btn flat class="veniti" @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
-                  v-if="!indiv.Sosit"
-                  >
-                      <v-icon left dark>done</v-icon>Sosit
-                  </v-btn>
-                  <v-btn 
-                    flat color="warning" 
-                    @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
-                    v-else>
-                      <v-icon left dark>undo</v-icon>Ne venit
-                  </v-btn>
+                  <v-btn flat class="veniti" @click="setSosit(indiv.GId,indiv.id)">
+                      <v-icon left dark>done</v-icon>Sosit                        
+                  </v-btn>                    
                   </v-card-actions>
                 </v-card>
           </v-flex>
@@ -60,6 +51,7 @@
 
 <script>
 export default {
+  name:"conf_notArr",
   data() {
     return {
       FamFilter:null,
@@ -67,19 +59,19 @@ export default {
     };
   },
   methods:{
-    setSosit(fam, indiv,myBol){
-      this.$store.dispatch('update_Sosit',{GId:fam,id:indiv,val:myBol})
+    setSosit(fam, indiv){
+      this.$store.dispatch('update_Sosit',{GId:fam,id:indiv,val:true})
     }
   },
   computed: {
-    Invitati() {
+    Nesositi() {
       var FamFilter=this.FamFilter
       var PrenumeFilter=this.PrenumeFilter
 
       if(FamFilter==null&&PrenumeFilter==null){
-        return this.$store.getters.getInvitati;
+        return this.$store.getters.getIndivNesositi;
       }else{        
-        return this.$store.getters.getInvitati.filter(function(el) {          
+        return this.$store.getters.getIndivNesositi.filter(function(el) {          
           if(FamFilter==null){
             return el.Prenume.toLowerCase().indexOf(PrenumeFilter.toLowerCase()) > -1
           }

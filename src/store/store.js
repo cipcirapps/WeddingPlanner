@@ -15,7 +15,7 @@ export const store = new Vuex.Store({
     groupByStatus: {},
     familii: [],
     familiiConf: [],
-    indivConf: []
+    
   },
   getters: {
     getStatusList(state) {
@@ -36,6 +36,23 @@ export const store = new Vuex.Store({
 
       return groupByStatus;
     },
+    // getGraph_groupStatus(state){
+    //   var groupByStatus = {};
+    //   var graphObj={}
+
+    //   state.statusList.forEach(stat => {
+    //     groupByStatus[stat.replace(" ", "_")] =[];
+    //   });
+    //   state.familii.forEach(fam => {
+    //     groupByStatus[fam.Status.replace(" ", "_")].push(fam);
+    //   });
+
+    //   for (let key in groupByStatus) {        
+    //     graphObj[key]=groupByStatus[key].length
+    //   }
+    //     return graphObj
+
+    // },
     getFamilie(state) {
       return payload => {
         return state.familii.find(fam => {
@@ -49,6 +66,12 @@ export const store = new Vuex.Store({
           return om.GId == invID.famID && om.id == invID.memID;
         });
       };
+    },
+    getInvitati(state){
+      return state.invitati
+    },
+    getIndivNesositi(state){
+      return state.invitatiNesositi
     },
     loaded(state) {
       return state.loaded;
@@ -73,32 +96,25 @@ export const store = new Vuex.Store({
         fam.FamID = key;
         state.familii.push(fam);
       }
-      // set invitati
-      state.invitati = [];
-
-      state.familii.forEach(fam => {
-        for (let key in fam.Membri) {
-          const myObj = fam.Membri[key];
-          myObj.id = key;
-          myObj.Locatie = fam.Locatie;
-          state.invitati.push(myObj);
-        }
-      });
-
+      
       state.familiiConf = state.familii.filter(fam => {
         return fam.Status == "Confirmat";
       });
-      //Set invitati confirmati
-      state.indivConf = [];
-      state.familiiConf.forEach(fam => {
-        for (let key in fam.Membri) {
-          if (!fam.Membri[key].Sosit) {
+      // set invitati
+      state.invitati = [];
+
+      state.familiiConf.forEach(fam => {        
+          for (let key in fam.Membri) {
             const myObj = fam.Membri[key];
             myObj.id = key;
             myObj.Locatie = fam.Locatie;
-            state.indivConf.push(myObj);
+            state.invitati.push(myObj);
           }
-        }
+      });
+
+      //Set invitati confirmati      
+      state.invitatiNesositi = state.invitati.filter(om => {
+        return !om.Sosit
       });
       state.loaded = true;
     }
@@ -128,6 +144,11 @@ export const store = new Vuex.Store({
           Loc: payload.Loc,
           Sosit: payload.Sosit
         });
+    },
+    update_Sosit({commit},payload){
+      firebase.database
+        .ref("Group/" + payload.GId + "/Membri/" + payload.id)
+        .update({Sosit:payload.val})
     },
     delete_Familia({ commit }, payload) {
       firebase.database.ref("Group/" + payload).remove();

@@ -30,10 +30,9 @@
                         label="Masa"
                         required></v-text-field> -->
                     <v-text-field
-                        v-model="invitat.Loc"
-                        :rules="noBlankRules"
+                        v-model="invitat.Loc"                        
                         label="Loc"
-                        required></v-text-field>                    
+                        ></v-text-field>                    
                     <v-checkbox
                     :label="'Sosit'"
                     v-model="invitat.Sosit"
@@ -84,7 +83,7 @@ export default {
       output: {
         familia: ""
       },
-      noBlankRules: [v => !!v || "Camp obligatoriu"]
+      noBlankRules: [v => v!="" || "Camp obligatoriu"]
     };
   },
   mounted() {
