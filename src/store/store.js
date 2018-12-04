@@ -14,8 +14,7 @@ export const store = new Vuex.Store({
     statusList: [],
     groupByStatus: {},
     familii: [],
-    familiiConf: [],
-    
+    familiiConf: []
   },
   getters: {
     getStatusList(state) {
@@ -36,6 +35,67 @@ export const store = new Vuex.Store({
 
       return groupByStatus;
     },
+    getGraphFams(state) {
+      var groupByStatus = {};
+
+      state.statusList.forEach(stat => {
+        groupByStatus[stat.replace(" ", "_")] = [];
+      });
+      state.familii.forEach(fam => {
+        groupByStatus[fam.Status.replace(" ", "_")].push(fam);
+      });
+
+      var GraphTest = [];
+      // console.log(this.famByStat);
+      // var famsObj = this.famByStat;
+
+      // get total
+      var Total = 0;
+      for (var key in groupByStatus) {
+        Total += groupByStatus[key].length;
+      }
+      var Offset = 0;
+      for (var key in groupByStatus) {
+        var graphObj = {};
+        graphObj.lbl = key.replace("_", " ");
+        graphObj.val = groupByStatus[key].length;
+        graphObj.proc = (groupByStatus[key].length / Total) * 100;
+        graphObj.offset = Offset;
+
+        Offset = graphObj.proc + Offset;
+
+        GraphTest.push(graphObj);
+      }
+      return GraphTest;
+    },
+    getGraphInvitati(state) {
+      var GraphTest = [];
+
+      // get total
+      var Total = state.invitati.length;
+
+      var Offset = 0;
+      //Nesositi
+      var graphObj = {};
+      graphObj.lbl = "Nesositi";
+      graphObj.val = state.invitatiNesositi.length;
+      graphObj.proc = (graphObj.val / Total) * 100;
+      graphObj.offset = Offset;
+
+      Offset = graphObj.proc + Offset;
+
+      GraphTest.push(graphObj);
+      //Ramasi
+      graphObj = {};
+      graphObj.lbl = "Veniti";
+      graphObj.val = Total - state.invitatiNesositi.length;
+      graphObj.proc = (graphObj.val / Total) * 100;
+      graphObj.offset = Offset;
+
+      Offset = graphObj.proc + Offset;
+      GraphTest.push(graphObj);
+      return GraphTest;
+    },
     // getGraph_groupStatus(state){
     //   var groupByStatus = {};
     //   var graphObj={}
@@ -47,7 +107,7 @@ export const store = new Vuex.Store({
     //     groupByStatus[fam.Status.replace(" ", "_")].push(fam);
     //   });
 
-    //   for (let key in groupByStatus) {        
+    //   for (let key in groupByStatus) {
     //     graphObj[key]=groupByStatus[key].length
     //   }
     //     return graphObj
@@ -67,11 +127,11 @@ export const store = new Vuex.Store({
         });
       };
     },
-    getInvitati(state){
-      return state.invitati
+    getInvitati(state) {
+      return state.invitati;
     },
-    getIndivNesositi(state){
-      return state.invitatiNesositi
+    getIndivNesositi(state) {
+      return state.invitatiNesositi;
     },
     loaded(state) {
       return state.loaded;
@@ -96,25 +156,25 @@ export const store = new Vuex.Store({
         fam.FamID = key;
         state.familii.push(fam);
       }
-      
+
       state.familiiConf = state.familii.filter(fam => {
         return fam.Status == "Confirmat";
       });
       // set invitati
       state.invitati = [];
 
-      state.familiiConf.forEach(fam => {        
-          for (let key in fam.Membri) {
-            const myObj = fam.Membri[key];
-            myObj.id = key;
-            myObj.Locatie = fam.Locatie;
-            state.invitati.push(myObj);
-          }
+      state.familiiConf.forEach(fam => {
+        for (let key in fam.Membri) {
+          const myObj = fam.Membri[key];
+          myObj.id = key;
+          myObj.Locatie = fam.Locatie;
+          state.invitati.push(myObj);
+        }
       });
 
-      //Set invitati confirmati      
+      //Set invitati confirmati
       state.invitatiNesositi = state.invitati.filter(om => {
-        return !om.Sosit
+        return !om.Sosit;
       });
       state.loaded = true;
     }
@@ -145,10 +205,10 @@ export const store = new Vuex.Store({
           Sosit: payload.Sosit
         });
     },
-    update_Sosit({commit},payload){
+    update_Sosit({ commit }, payload) {
       firebase.database
         .ref("Group/" + payload.GId + "/Membri/" + payload.id)
-        .update({Sosit:payload.val})
+        .update({ Sosit: payload.val });
     },
     delete_Familia({ commit }, payload) {
       firebase.database.ref("Group/" + payload).remove();
