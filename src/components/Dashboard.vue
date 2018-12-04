@@ -1,87 +1,144 @@
 <template> 
-    <!-- Main content -->    
-      <v-container grid-list-sm fluid>
-        <!-- Familii -->
-         <v-layout row wrap>
-           <v-flex xs6>
-              <v-card>
-             <v-card-title><h3>Status familii</h3></v-card-title>
-             <v-card-text>
-               <v-chip v-for="(fam,key,index) in fams" :key="key" :color="colorsArr[index]">
-                 {{key.replace("_"," ")}}: <b>{{fam}}</b>
-               </v-chip> 
-             </v-card-text> 
-             <v-card-text>
-                <!-- grafic -->    
-              <div class="row GraphContainer">      
-                <div class="col m12 s12">
-                  <center>
-                    <pie-chart :data="fams" :colors="colorsArr" :donut="true" legend="none"></pie-chart>
-                  </center>
-                </div>
-              </div>    
-             </v-card-text>
-           </v-card> 
-           </v-flex>
-           <v-flex xs6>
-           <v-card>
-             <v-card-title><h3>Status invitati</h3></v-card-title>
-             <v-card-text>
-               <v-chip v-for="(fam,key,index) in invitati" :key="key" :color="colorsArr[index]">
-                 {{key.replace("_"," ")}}: <b>{{fam}}</b>
-               </v-chip> 
-             </v-card-text> 
-             <v-card-text>
-                <!-- grafic -->    
-              <div class="row GraphContainer">      
-                <div class="col m12 s12">
-                  <center>
-                  <pie-chart :data="invitati" :colors="colorsArr" :donut="true" legend="none" ></pie-chart>
-                </center>
-                </div>
-              </div>    
-             </v-card-text>
-           </v-card> 
-           </v-flex>
-         </v-layout>           
-      </v-container>    
+  <v-container fluid >      
+      <v-container grid-list-xl>        
+        <v-layout align-center justify-space-around row wrap>
+            <v-flex style="text-align:center" xs12 sm6> 
+      <!-- cards -->
+              <v-card class="mb-2">
+                <v-card-title class="blue lighten-1 pb-0 pt-1" >
+                    <div>
+                    Status familii                      
+                    </div>
+                </v-card-title>                  
+                <v-card-text class="pt-0 pb-0">                                      
+                  <svg :width="chartSize" 
+                  :height="chartSize" id="SVGtag">                      
+                      <rect class="BarTot" :x="TotalBar.X+'%'" :y="TotalBar.Y+'%'" :width="TotalBar.Width+'%'" :height="TotalBar.Height+'%'" />
+                    <g v-for="(bar,index) in famByStat" :key="index">
+                      <rect
+                      class="BarPart" 
+                      :x="TotalBar.X+'%'" 
+                      :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+'%'" 
+                      :height="bar.proc*TotalBar.Height/100+'%'" 
+                      :width="TotalBar.Width+'%'" 
+                      :style="'fill:'+colorsArr[index]"
+                      />
+                      <text                        
+                        :x="TotalBar.X+TotalBar.Width*1.1+'%'" 
+                        :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
+                        fill="black">
+                        {{bar.lbl}}
+                         
+                        </text>
+                        <text                        
+                        :x="TotalBar.X+TotalBar.Width*0.4+'%'" 
+                        :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
+                        fill="black"
+                       >
+                        {{bar.val}}
+                        </text>
+                          <!-- {{(bar.proc).toFixed(0)}}% -->
+                        
+                    </g>
+                  </svg>   
+                </v-card-text>            
+              </v-card>
+          </v-flex>
+           <v-flex style="text-align:center" xs12 sm6> 
+      <!-- cards -->
+              <v-card class="mb-2">
+                <v-card-title class="blue lighten-1 pb-0 pt-1" >
+                    <div>
+                    Status invitati
+                    </div>
+                </v-card-title>                  
+                <v-card-text class="pt-0 pb-0">                                      
+                  <svg :width="chartSize" 
+                  :height="chartSize" id="SVGtag">                      
+                      <rect class="BarTot" :x="TotalBar.X+'%'" :y="TotalBar.Y+'%'" :width="TotalBar.Width+'%'" :height="TotalBar.Height+'%'" />
+                    <g v-for="(bar,index) in IndivByStat" :key="index">
+                      <rect
+                      class="BarPart" 
+                      :x="TotalBar.X+'%'" 
+                      :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+'%'" 
+                      :height="bar.proc*TotalBar.Height/100+'%'" 
+                      :width="TotalBar.Width+'%'" 
+                      :style="'fill:'+colorsArr[index]"
+                      />
+                      <text                        
+                        :x="TotalBar.X+TotalBar.Width*1.1+'%'" 
+                        :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
+                        fill="black">
+                        {{bar.lbl}}
+                         
+                        </text>
+                        <text                        
+                        :x="TotalBar.X+TotalBar.Width*0.4+'%'" 
+                        :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
+                        fill="black"
+                       >
+                        {{bar.val}}
+                        </text>
+                          <!-- {{(bar.proc).toFixed(0)}}% -->
+                        
+                    </g>
+                  </svg>   
+                </v-card-text> 
+              </v-card>
+          </v-flex>
+        </v-layout>
+        
+      </v-container>
+  </v-container>
 </template>
 
 <script>
-
-
-  export default {
-    data(){
-      return{         
-         colorsArr:['#a0cfff', '#FFC107', '#69c56c','#d6d6d6']
-          //  ["done",3]
-          //  ]
-      }
-    },
-    computed:{
-      fams(){
-        const data=this.$store.getters.getGroupStatus
-        
-        var chart={}
-        for (let key in data) {          
-          chart[key]=data[key].length
-        }
-
-        return chart
-        // return this.$store.getters.getGraph_groupStatus
+export default {
+  data() {
+    return {
+      colorsArr: ["#a0cfff", "#FFC107", "#69c56c", "#d6d6d6"],
+      chartSize: "40vw",
+      TotalBar: {
+        X: 10,
+        Y: 10,
+        Width: 30,
+        Height: 80
       },
-      invitati(){
-        const toti=this.$store.getters.getInvitati
-        const nesositi=this.$store.getters.getIndivNesositi
-        var chart={}
-        chart["Veniti"]=toti.length-nesositi.length
-        chart["Neveniti"]=nesositi.length
-
-        return chart
-      }
+      dataPathsArr: []
+    };
+  },
+  computed: {
+    IndivByStat() {
+      // console.log(this.$store.getters.getGraphInvitati);
+      return this.$store.getters.getGraphInvitati;
+    },
+    famByStat() {
+      return this.$store.getters.getGraphFams;
     }
-  //   created() {
-  //  
-  // },
   }
+};
 </script>
+<style>
+#PieChart {
+  height: 200px;
+}
+#SVGtag {
+  margin: 10px 0px;
+  border: solid 1px black;
+}
+
+.BarTot {
+  fill: white;
+  stroke-width: 3;
+  stroke: rgb(0, 0, 0);
+}
+.BarPart {
+  /* fill: #a0cfff; */
+  fill-opacity: 0.9;
+  stroke-width: 2;
+  stroke: rgb(0, 0, 0);
+}
+text{
+  font-size: 2vw
+}
+</style>

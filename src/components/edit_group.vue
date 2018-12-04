@@ -44,6 +44,13 @@
                         >{{om}}</v-chip>
                       
                       </v-layout>   
+                        <v-textarea
+                          v-model="Familia.Comments"
+                          name="input-comments"
+                          rows=3
+                          outline
+                          label="Comentarii"                          
+                        ></v-textarea>
                     
 
                 </v-form>
@@ -83,6 +90,7 @@ export default {
       AddMemb: "",
       output: {
         nume: "",
+        comments:"",
         Membri: []
       },
       noBlankRules: [v => !!v || "Camp obligatoriu"]

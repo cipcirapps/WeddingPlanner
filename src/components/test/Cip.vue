@@ -7,7 +7,7 @@
               <v-card class="mb-2">
                 <v-card-title class="blue lighten-1 pb-0 pt-1" >
                     <div>
-                    Fams                      
+                    Status familii                      
                     </div>
                 </v-card-title>                  
                 <v-card-text class="pt-0 pb-0">                                      
@@ -23,13 +23,22 @@
                       :width="TotalBar.Width+'%'" 
                       :style="'fill:'+colorsArr[index]"
                       />
-                      <text 
+                      <text                        
                         :x="TotalBar.X+TotalBar.Width*1.1+'%'" 
                         :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
                         fill="black">
-                        <!-- {{bar.lbl}} -->
-                         : {{bar.val}} = {{(bar.proc).toFixed(2)}}%
+                        {{bar.lbl}}
+                         
                         </text>
+                        <text                        
+                        :x="TotalBar.X+TotalBar.Width*0.4+'%'" 
+                        :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
+                        fill="black"
+                       >
+                        {{bar.val}}
+                        </text>
+                          <!-- {{(bar.proc).toFixed(0)}}% -->
+                        
                     </g>
                   </svg>   
                 </v-card-text>            
@@ -40,7 +49,7 @@
               <v-card class="mb-2">
                 <v-card-title class="blue lighten-1 pb-0 pt-1" >
                     <div>
-                    Inv                      
+                    Status invitati
                     </div>
                 </v-card-title>                  
                 <v-card-text class="pt-0 pb-0">                                      
@@ -56,45 +65,29 @@
                       :width="TotalBar.Width+'%'" 
                       :style="'fill:'+colorsArr[index]"
                       />
-                      <text 
+                      <text                        
                         :x="TotalBar.X+TotalBar.Width*1.1+'%'" 
                         :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
                         fill="black">
-                        <!-- {{bar.lbl}} -->
-                         : {{bar.val}} = {{(bar.proc).toFixed(2)}}%
+                        {{bar.lbl}}
+                         
                         </text>
+                        <text                        
+                        :x="TotalBar.X+TotalBar.Width*0.4+'%'" 
+                        :y="(100-bar.proc-bar.offset)*TotalBar.Height/100+TotalBar.Y+(bar.proc*TotalBar.Height/100)*0.6+'%'" 
+                        fill="black"
+                       >
+                        {{bar.val}}
+                        </text>
+                          <!-- {{(bar.proc).toFixed(0)}}% -->
+                        
                     </g>
                   </svg>   
-                </v-card-text>
+                </v-card-text> 
               </v-card>
           </v-flex>
         </v-layout>
-        <v-layout>
-          <v-flex style="text-align:center" xs12 sm6> 
-      <!-- cards -->
-              <v-card class="mb-2">
-                <v-card-title class="blue lighten-1 pb-0 pt-1" >
-                    <div>
-                    Inv                      
-                    </div>
-                </v-card-title>                  
-                <v-card-text class="pt-0 pb-0">                                      
-                 <svg viewBox="-1 -1 2 2" id="PieChart" style="transform: rotate(-90deg)">
-                   <g v-for="(pat,index) in dataPathsArr" :key="index">
-                    <path  
-                      :d="pat.path"
-                      :fill="colorsArr[index]"
-                      >
-                     </path> 
-                     <text  fill="black">
-                       XXX
-                      </text>
-                    </g>
-                  </svg>  
-                </v-card-text>
-              </v-card>
-          </v-flex>
-        </v-layout>
+        
       </v-container>
   </v-container>
 </template>
@@ -104,59 +97,25 @@ export default {
   data() {
     return {
       colorsArr: ["#a0cfff", "#FFC107", "#69c56c", "#d6d6d6"],
-      chartSize: "25vw",
+      chartSize: "40vw",
       TotalBar: {
         X: 10,
         Y: 10,
         Width: 30,
-        Height: 50
+        Height: 80
       },
-      slices: [
-        { percent: 0.1 },
-        { percent: 0.7 },
-        { percent: 0.1 },
-        { percent: 0.1 }
-      ],
       dataPathsArr: []
     };
   },
-  created() {
-    let cumulativePercent = 0;
-    var vueObj = this;
-    vueObj.slices.forEach(slice => {
-      // destructuring assignment sets the two variables at once
-      const [startX, startY] = vueObj.getCoordinatesForPercent(
-        cumulativePercent
-      );
-
-      // each slice starts where the last slice ended, so keep a cumulative percent
-      cumulativePercent += slice.percent;
-
-      const [endX, endY] = vueObj.getCoordinatesForPercent(cumulativePercent);
-
-      // if the slice is more than 50%, take the large arc (the long way around)
-      const largeArcFlag = slice.percent > 0.5 ? 1 : 0;
-
-      // create an array and join it just for code readability
-      const pathData = [
-        `M ${startX} ${startY}`, // Move
-        `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`, // Arc
-        `L 0 0` // Line
-      ].join(" ");
-      // create a <path> and append it to the <svg> element
-      // const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      // pathEl.setAttribute('d', pathData);
-      // pathEl.setAttribute('fill', slice.color);
-      // svgEl.appendChild(pathEl);
-      vueObj.dataPathsArr.push({ path: pathData });
-    });
-  },
+  // created() {
+    
+  // },
   methods: {
-    getCoordinatesForPercent(percent) {
-      const x = Math.cos(2 * Math.PI * percent);
-      const y = Math.sin(2 * Math.PI * percent);
-      return [x, y];
-    }
+    // getCoordinatesForPercent(percent) {
+    //   const x = Math.cos(2 * Math.PI * percent);
+    //   const y = Math.sin(2 * Math.PI * percent);
+    //   return [x, y];
+    // }
   },
   computed: {
     IndivByStat() {
@@ -188,5 +147,8 @@ export default {
   fill-opacity: 0.9;
   stroke-width: 2;
   stroke: rgb(0, 0, 0);
+}
+text{
+  font-size: 2vw
 }
 </style>

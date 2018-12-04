@@ -193,7 +193,8 @@ export const store = new Vuex.Store({
       firebase.database.ref("Group/" + payload.FamID + "/").update({
         Nume: payload.Nume,
         Locatie: payload.Locatie,
-        Status: payload.Status
+        Status: payload.Status,
+        Comments: payload.Comments
       });
     },
     update_Invitat({ commit }, payload) {
