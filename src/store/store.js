@@ -122,6 +122,7 @@ export const store = new Vuex.Store({
     },
     getInvitat(state) {
       return invID => {
+        console.log( invID.famID,invID.memID)
         return state.invitati.find(om => {
           return om.GId == invID.famID && om.id == invID.memID;
         });
@@ -247,7 +248,7 @@ export const store = new Vuex.Store({
         });
     },
     add_Memb({ commit }, payload) {
-      debugger;
+      // debugger;
       var memObj = {};
       (memObj.GId = payload.FamID),
         (memObj.Loc = 0),

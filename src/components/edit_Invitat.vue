@@ -2,7 +2,7 @@
     <!-- Main content -->
     <v-container fluid>
         <v-layout row wrap justify-center>
-            <v-flex xs6>
+            <v-flex sm6>
 
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-text-field disabled
@@ -56,10 +56,10 @@
           row
           wrap
         >       
-            <v-flex xs4>
+            <!-- <v-flex xs4> -->
               <v-btn  @click="submit" color="accent">Update</v-btn>
               <v-btn color="black" outline :to="'/'">Cancel</v-btn>          
-            </v-flex>
+            <!-- </v-flex> -->
           </v-layout>
         </v-footer>
 

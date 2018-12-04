@@ -2,7 +2,7 @@
     <!-- Main content -->
     <v-container fluid>
         <v-layout row wrap justify-center>
-            <v-flex xs6>
+            <v-flex sm6>
 
                 <v-form ref="form" v-model="valid">
                     
@@ -27,8 +27,11 @@
                       <v-layout row wrap>
                         <v-chip disabled 
                         color="primary" text-color="white" 
-                        v-for="(om,index) in Familia.Membri" :key="index"
-                        >{{om.Prenume}}</v-chip>                      
+                        v-for="(om,key,index) in Familia.Membri" :key="index"                        
+                        >{{om.Prenume}}
+                        <v-icon right @click="removeExistingMemb(om.GId,key)">close</v-icon>
+                        
+                        </v-chip>
                       </v-layout>
                       
                       <v-layout row wrap>
@@ -63,10 +66,10 @@
           row
           wrap
         >       
-            <v-flex xs4>
+            <!-- <v-flex md4> -->
               <v-btn  @click="submit" color="accent">Update</v-btn>
               <v-btn color="black" outline :to="'/'">Cancel</v-btn>          
-            </v-flex>
+            <!-- </v-flex> -->
           </v-layout>
         </v-footer>
 
@@ -135,6 +138,9 @@ export default {
         this.output.Membri.splice(this.output.Membri.indexOf(this.AddMemb), 1);
         this.AddMemb = null;
       }
+    },
+    removeExistingMemb(famID,memID){
+      this.$store.dispatch("delete_Invitat", {GId:famID,id:memID});
     },
     deleteFam() {
       this.$store.dispatch("delete_Familia", this.$route.params.gid);

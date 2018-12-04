@@ -18,6 +18,7 @@
     </v-layout>
       <!-- cards -->
       <v-container grid-list-xl>        
+          Ramasi: <b>{{Nesositi.length}}</b>
         <v-layout align-center justify-space-around row wrap>
             <v-flex 
             xs12 sm3 

@@ -5,7 +5,7 @@
             <v-flex style="text-align:center" xs12 sm6> 
       <!-- cards -->
               <v-card class="mb-2">
-                <v-card-title class="blue lighten-1 pb-0 pt-1" >
+                <v-card-title class="blue lighten-1 pb-0 pt-1 white--text" >
                     <div>
                     Status familii                      
                     </div>
@@ -13,7 +13,8 @@
                 <v-card-text class="pt-0 pb-0">                                      
                   <svg :width="chartSize" 
                   :height="chartSize" id="SVGtag">                      
-                      <rect class="BarTot" :x="TotalBar.X+'%'" :y="TotalBar.Y+'%'" :width="TotalBar.Width+'%'" :height="TotalBar.Height+'%'" />
+                      <!-- <rect class="BarTot" :x="TotalBar.X+'%'" :y="TotalBar.Y+'%'" :width="TotalBar.Width+'%'" :height="TotalBar.Height+'%'"
+                      rx="20" ry="20" /> -->
                     <g v-for="(bar,index) in famByStat" :key="index">
                       <rect
                       class="BarPart" 
@@ -22,6 +23,7 @@
                       :height="bar.proc*TotalBar.Height/100+'%'" 
                       :width="TotalBar.Width+'%'" 
                       :style="'fill:'+colorsArr[index]"
+                      rx="10" ry="10"
                       />
                       <text                        
                         :x="TotalBar.X+TotalBar.Width*1.1+'%'" 
@@ -47,7 +49,7 @@
            <v-flex style="text-align:center" xs12 sm6> 
       <!-- cards -->
               <v-card class="mb-2">
-                <v-card-title class="blue lighten-1 pb-0 pt-1" >
+                <v-card-title class="blue lighten-1 pb-0 pt-1  white--text" >
                     <div>
                     Status invitati
                     </div>

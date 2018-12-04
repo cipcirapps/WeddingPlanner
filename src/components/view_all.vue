@@ -1,11 +1,11 @@
 <template> 
   <v-container fill-width align-center>
     <!-- templatefor     -->
-    <div v-for="(itm ,key,index) in GroupedStatus" :key="index">
+    <div v-for="(itm ,keyFam,index) in GroupedStatus" :key="index">
                
         <v-layout row wrap>
           <v-flex xs6 mt-4>            
-            <div class="blue-grey--text darken-4">{{key.replace("_"," ")}} : {{itm.length}} </div>
+            <div class="blue-grey--text darken-4">{{keyFam.replace("_"," ")}} : {{itm.length}} </div>
           </v-flex>
         </v-layout>
         
@@ -39,11 +39,11 @@
                       <v-flex xs4>
                         {{om.Prenume}}
                       </v-flex>              
-                      <v-flex xs4>  
+                      <v-flex xs4 v-if="keyFam=='Confirmat'">  
                         <v-icon class="green--text" v-if="om.Sosit ">check</v-icon>                
                         <v-icon v-else class="orange--text" >directions_run</v-icon>
                       </v-flex>              
-                      <v-flex xs4 style="text-align:right"> 
+                      <v-flex xs4 style="text-align:right" v-if="keyFam=='Confirmat'"> 
                           <v-btn flat icon small class="accent" 
                           :to="{name:'editInvitat',params:{gid:om.GId},query:{memid:key}}">
                             <v-icon small>edit</v-icon>

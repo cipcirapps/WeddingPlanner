@@ -70,8 +70,8 @@ export default {
       drawer: false,
 
       menuItems: [
-        { icon: "done", title: "De venit", link: "/conf_notArr" },
-        { icon: "contacts", title: "Toti invitatii", link: "/confirmed" },
+        { icon: "done", title: "Nesositi", link: "/conf_notArr" },
+        { icon: "contacts", title: "Confirmati", link: "/confirmed" },
         { icon: "people", title: "Toate Fams", link: "/view_all" },
         { icon: "view_module", title: "Asezare", link: "/layout" },
         // { icon: "person_add", title: "Adauga",link:"/add_new" },
