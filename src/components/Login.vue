@@ -9,19 +9,44 @@
             label="Email"
             outline
             clearable
-            prepend-icon="delete_forever"
+            prepend-icon="person"
+            type="email"
           ></v-text-field>
-          <v-text-field v-model="pass" :rules="noBlankRules" label="Locatie"></v-text-field>
+          <v-text-field
+            v-model="pass"
+            :rules="noBlankRules"
+            :append-icon="showPass ? 'visibility_off' : 'visibility'"
+            :type="showPass ? 'text' : 'password'"
+            label="Password"
+            outline
+            clearable
+            prepend-icon="lock"
+            @click:append="showPass = !showPass"
+          ></v-text-field>
         </v-form>
       </v-flex>
     </v-layout>
+    <v-alert :value="alert" color="error" icon="warning" outline>{{alertMessage}}</v-alert>
+    <!-- footer nav -->
+    <v-footer height="auto" class="pa-3">
+      <v-layout justify-center row wrap>
+        <!-- <v-flex md4> -->
+        <v-btn @click="login" color="accent">Login</v-btn>
+        <!-- </v-flex> -->
+      </v-layout>
+    </v-footer>
   </v-container>
 </template>
 <script>
+import firebase from "firebase";
 export default {
   name: "Edit_Group",
   data() {
     return {
+      alert: false,
+      alertMessage: "ddd",
+      showPass: false,
+
       email: "",
       pass: "",
       valid: false,
@@ -29,7 +54,30 @@ export default {
     };
   },
   methods: {
-    login() {}
+    login() {
+      if (this.valid) {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.pass)
+          .then(
+            user => {
+              //alert(`You are logged in as ${user.email}`);
+              //this.$router.go({ path: this.$router.path });
+              this.alert = true;
+              this.alertMessage = `You are logged in as ${user.email}`;
+
+              this.$router.push("/");
+              //this.$router.push("/view/cols")
+            },
+            err => {
+              // alert(err.message);
+              //   M.toast({ html: err.message });
+              this.alert = true;
+              this.alertMessage = err.message;
+            }
+          );
+      }
+    }
   }
 };
 </script>
