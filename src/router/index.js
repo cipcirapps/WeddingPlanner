@@ -10,6 +10,7 @@ import editInvitat from "@/components/edit_Invitat";
 import edit_group from "@/components/edit_group";
 
 import add_new_group from "@/components/add_new_Group";
+import login from "@/components/Login";
 import Cip from "@/components/test/cip";
 import Ramo from "@/components/test/ramo";
 
@@ -21,6 +22,11 @@ export default new Router({
       path: "/",
       name: "Dashboard",
       component: Dashboard
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: login
     },
     {
       path: "/confirmed",
