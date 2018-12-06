@@ -7,12 +7,9 @@ import router from "./router";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 
-import Chartkick from 'chartkick'
-import VueChartkick from 'vue-chartkick'
-import 'chart.js'
-
 
 import { store } from "./store/store";
+import VueGoogleCharts from 'vue-google-charts'
 
 // import firebase from 'firebase'
 // import 'firebase/app'
@@ -32,7 +29,8 @@ Vue.use(Vuetify, {
     nesositi:"#ffc107"
   }
 });
-Vue.use(VueChartkick, { Chartkick })
+Vue.use(VueGoogleCharts)
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

@@ -68,6 +68,45 @@ export const store = new Vuex.Store({
       }
       return GraphTest;
     },
+    getPieFams(state){
+      var groupByStatus = {};
+
+      state.statusList.forEach(stat => {
+        groupByStatus[stat.replace(" ", "_")] = [];
+      });
+      state.familii.forEach(fam => {
+        groupByStatus[fam.Status.replace(" ", "_")].push(fam);
+      });
+
+      var GraphTest = [ ['Familii', 'Numar']];
+
+      for (var key in groupByStatus) {
+        var graphArr = [];
+        graphArr.push( key.replace("_", " "))
+        graphArr.push( groupByStatus[key].length)
+        
+
+        GraphTest.push(graphArr);
+      }
+      return GraphTest;
+
+    },
+    getPieInvitati(state){
+      var GraphTest = [ ['Familii', 'Numar']];
+
+      var graphArr = [];
+      graphArr.push( "Nesositi")
+      graphArr.push( state.invitatiNesositi.length)
+
+      GraphTest.push(graphArr)
+      
+      graphArr = [];
+      graphArr.push( "Veniti")
+      graphArr.push( state.invitati.length-state.invitatiNesositi.length)
+
+      GraphTest.push(graphArr)
+      return GraphTest;
+    },
     getGraphInvitati(state) {
       var GraphTest = [];
 
