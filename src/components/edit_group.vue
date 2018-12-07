@@ -1,86 +1,63 @@
 <template>
-    <!-- Main content -->
-    <v-container fluid>
-        <v-layout row wrap justify-center>
-            <v-flex sm6>
+  <!-- Main content -->
+  <v-container fluid>
+    <v-layout row wrap justify-center>
+      <v-flex sm6>
+        <v-form ref="form" v-model="valid">
+          <v-text-field v-model="Familia.Nume" :rules="noBlankRules" label="Familia"></v-text-field>
+          <v-text-field v-model="Familia.Locatie" :rules="noBlankRules" label="Locatie"></v-text-field>
+          <v-select v-model="Familia.Status" :items="statuses" box label="Status"></v-select>
 
-                <v-form ref="form" v-model="valid">
-                    
-                    <v-text-field
-                        v-model="Familia.Nume"
-                        :rules="noBlankRules"
-                        label="Familia"></v-text-field>
-                    <v-text-field
-                        v-model="Familia.Locatie"
-                        :rules="noBlankRules"
-                        label="Locatie"></v-text-field>
-                     <v-select
-                      v-model="Familia.Status"
-                      :items="statuses"
-                      box
-                      label="Status"
-                    ></v-select>
-                        
-                     <v-flex>
-                          Existing members:
-                      </v-flex>
-                      <v-layout row wrap>
-                        <v-chip disabled 
-                        color="primary" text-color="white" 
-                        v-for="(om,key,index) in Familia.Membri" :key="index"                        
-                        >{{om.Prenume}}
-                        <v-icon right @click="removeExistingMemb(om.GId,key)">close</v-icon>
-                        
-                        </v-chip>
-                      </v-layout>
-                      
-                      <v-layout row wrap>
-                        <v-text-field
-                          v-model="AddMemb"
-                          @keydown.enter="addMembru"
-                          @keydown.delete="removeMembru"
-                          label="Add member name (Enter to add, Del to remove)"
-                        ></v-text-field>
-                      </v-layout>
-                      <v-layout row wrap>
-                        <v-chip v-for="(om,index) in output.Membri" :key="index"
-                        >{{om}}</v-chip>
-                      
-                      </v-layout>   
-                        <v-textarea
-                          v-model="Familia.Comments"
-                          name="input-comments"
-                          rows=3
-                          outline
-                          label="Comentarii"                          
-                        ></v-textarea>
-                    
-
-                </v-form>
-            </v-flex>
-        </v-layout>
-        <!-- footer nav -->
-        <v-footer  height="auto" class="pa-3">   
-         <v-layout
-          justify-center
-          row
-          wrap
-        >       
-            <!-- <v-flex md4> -->
-              <v-btn  @click="submit" color="accent">Update</v-btn>
-              <v-btn color="black" outline :to="'/'">Cancel</v-btn>          
-            <!-- </v-flex> -->
+          <v-flex>Existing members:</v-flex>
+          <v-layout row wrap>
+            <v-chip
+              disabled
+              color="primary"
+              text-color="white"
+              v-for="(om,key,index) in Familia.Membri"
+              :key="index"
+            >
+              {{om.Prenume}}
+              <v-icon right @click="removeExistingMemb(om.GId,key)">close</v-icon>
+            </v-chip>
           </v-layout>
-        </v-footer>
 
-        <v-btn fab small 
-        @click="deleteFam()" 
-        color="error"
-        fixed bottom right>
-          <v-icon >delete_forever</v-icon>
-        </v-btn>
-        <!-- footer nav end-->
-    </v-container>
+          <v-layout row wrap>
+            <v-text-field
+              v-model="AddMemb"
+              @keydown.enter="addMembru"
+              @keydown.delete="removeMembru"
+              label="Add member name (Enter to add, Del to remove)"
+            ></v-text-field>
+          </v-layout>
+          <v-layout row wrap>
+            <v-chip v-for="(om,index) in output.Membri" :key="index">{{om}}</v-chip>
+          </v-layout>
+          <v-textarea
+            v-model="Familia.Comments"
+            name="input-comments"
+            rows="3"
+            outline
+            label="Comentarii"
+          ></v-textarea>
+        </v-form>
+      </v-flex>
+    </v-layout>
+    <!-- footer nav -->
+    <v-footer height="auto" class="pa-3">
+      <v-layout justify-center row wrap>
+        <!-- <v-flex md4> -->
+        <v-btn @click="submit" color="accent">Update</v-btn>
+        <v-btn color="black" outline :to="'/'">Cancel</v-btn>
+        <!-- </v-flex> -->
+      </v-layout>
+    </v-footer>
+
+    <v-btn fab small @click="deleteFam()" color="error" fixed bottom right>
+      <v-icon>delete_forever</v-icon>
+    </v-btn>
+    <!-- footer nav end-->
+  </v-container>
 </template>
 
 <script>
@@ -93,7 +70,7 @@ export default {
       AddMemb: "",
       output: {
         nume: "",
-        comments:"",
+        comments: "",
         Membri: []
       },
       noBlankRules: [v => !!v || "Camp obligatoriu"]
@@ -115,6 +92,10 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         // update fam
+
+        if (this.Familia.Comments == undefined) {
+          this.Familia.Comments = "";
+        }
         this.$store.dispatch("update_Familia", this.Familia);
 
         // update invitat
@@ -139,8 +120,8 @@ export default {
         this.AddMemb = null;
       }
     },
-    removeExistingMemb(famID,memID){
-      this.$store.dispatch("delete_Invitat", {GId:famID,id:memID});
+    removeExistingMemb(famID, memID) {
+      this.$store.dispatch("delete_Invitat", { GId: famID, id: memID });
     },
     deleteFam() {
       this.$store.dispatch("delete_Familia", this.$route.params.gid);
