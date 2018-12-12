@@ -24,13 +24,15 @@
                         label="Prenume"
                         required></v-text-field>
                     
-                    <!-- <v-text-field
-                        v-model="invitat.masa"
-                        :rules="noBlankRules"
-                        label="Masa"
-                        required></v-text-field> -->
                     <v-text-field
-                        v-model="invitat.Loc"                        
+                        v-model="invitat.Masa"
+                        :rules="noBlankRules"
+                        type="number"
+                        label="Masa"
+                        required></v-text-field>
+                    <v-text-field
+                        v-model="invitat.Loc"     
+                        type="number"               
                         label="Loc"
                         ></v-text-field>                    
                     <v-checkbox

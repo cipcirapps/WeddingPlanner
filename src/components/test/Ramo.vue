@@ -2,33 +2,34 @@
   <v-container>
 
     <!-- Nealocati -->
-    <div v-for="(element, i) in nealocati" :key="element.id" class="header">
-      <drop class="drop list" @drop="handleDrop(nealocati,i,-1, ...arguments)">
+  
+   <div class="header">
+      <drop class="drop list" @drop="droped(InvitFaraLoc,false,...arguments)">
         <drag
-          v-for="item in element"
+          v-for="item in InvitFaraLoc"
           :key="item.id"
           class="drag"
-          :transfer-data="{ item: item, list: nealocati, example: 'mese_array', listnri: i, listnrj: -1}"
-        >X {{ item.name }}</drag>
+          :transfer-data="{ item: item,from:'head', list: InvitFaraLoc}"
+        >{{ item.Prenume }} {{ item.Nume }}</drag>
       </drop>
     </div>
-
     <!-- Mese * Locuri -->
-
-    <div v-for="(masa, i) in mese_array" :key="i">
-        masa:{{i}}
-      <div v-for="(element, j) in masa" :key="i*nrLocuri+j" class="drops">
-          loc:{{i*nrLocuri + j}}
-        <drop class="drop list" @drop="handleDrop(mese_array[i],i,j, ...arguments)">
+    <div v-for="(masa,masaI) in MeseInvitati" :key="masa.nr">
+        masa:{{masaI}}   
+        <drop v-for="(loc,indx) in masa.locuri" :key="indx"
+          class="drop list" 
+          @drop="droped(loc, true,...arguments)">
+          loc:{{indx}}
           <drag
-            v-for="item in element"
-            :key="item.id"
+            v-for="(item,j) in loc"
+            :key="j"
             class="drag"
-            :transfer-data="{ item: item, list: mese_array[i], example: 'mese_array', listnri: i, listnrj: j}"
-          >Y {{ item.name }}</drag>
+            :transfer-data="{ item: item, from:'loc', list: loc, inxLocuri:indx,inxMasa:masaI}"
+          >{{ item.Prenume }} {{ item.Nume }}</drag>
         </drop>
-      </div>
+      
     </div>
+
     
   </v-container>
 </template>
@@ -40,65 +41,63 @@ export default {
   data() {
     return {
       nrMese: 3,
-      nrLocuri: 4,
-    //   mese_array: [['1'], ['2'], ['3']],
+      nrLocuri: 5,
+    
     mese_array:[],
-      nealocati: [[{ name: "a", id: "1sdfsdf" }, { name: "b", id: "dfdf2" }]]
+    invitatiDepus:[]
     };
   },
-  created: function() {
-       for (var i=0; i<this.nrMese; i++){
-            this.mese_array.push([]);
-        for (var j=0; j<this.nrLocuri; j++){
-                this.mese_array[i].push([]);
-                
-        }
-       }
+  created() {
+   this.genMeseArr()
+
+  },
+  updated(){
+    // this.genMeseArr()
+    console.log("updated")
   },
   computed: {
-    Indivizi() {
-      return this.$store.getters.getInvitati;
+    InvitFaraLoc() {
+      // invitatiDepus=this.$store.getters.getInvitati;
+      return this.$store.getters.getInvitatiFaraLoc;
+    },
+    MeseInvitati(){
+      return this.$store.getters.getMeseInvitati;
     },
     famByStat() {
       return this.$store.getters.getGraphFams;
     },
-    scopedData: () => ({
-      dragText: "scoped drag",
-      dropText: "scoped drop"
-    })
+    
   },
   methods: {
-    handleDrop(toList, iIndex, jIndex, data) {
-      const fromList = data.list;
-      var global = (iIndex - 1) * this.nrLocuri + jIndex + 1;
-    //   debugger;
-
-      if (data.listnrj != -1) {
-
-         console.log("to header");
-          
-          console.log(this.nealocati);
-          
-          this.nealocati[0].push(data.item);
-          
-          
-          this.mese_array[data.listnri][data.listnrj]=[];
-          
-          toList.sort((a, b) => a > b);
-          
-        
-      } else {
-        console.log("from header");
-          
-          this.mese_array[iIndex][jIndex]=[data.item];
-          this.nealocati[0].splice(this.nealocati[0].indexOf(data.item), 1);
-
-
-          toList.sort((a, b) => a > b);
-          
-        
+    genMeseArr(){
+      for (var i=1; i<=this.nrMese; i++){
+        this.mese_array.push({
+          nr:i,
+          locuri:[]
+        })
+        for (var j=1; j<=this.nrLocuri; j++){
+          this.mese_array[i-1].locuri.push([])
+        }
       }
-    }
+    },
+    droped(toList,inLoc,data){
+      var fromList = data.list;
+      
+      if (inLoc && data.from=='head'){      
+        // debugger  
+          // this.InvitFaraLoc.splice(this.InvitFaraLoc.indexOf(data.item),1)
+          var payload={
+            FamId:data.item.GId,
+            UID:data.item.id,
+            Masa:0,
+            Loc:2
+          }
+          this.$store.dispatch("updateIniv_Masa",payload)
+      }else{
+        // this.genMeseArr[data.inxMasa].locuri[data.inxLocuri].splice(0,1)
+      }
+      // toList.push(data.item)
+    },
   }
 };
 </script>
@@ -140,7 +139,7 @@ export default {
   display: inline-block;
   border-radius: 10px;
   width: 100px;
-  height: 50px;
+  /* height: 50px; */
   background: #ccc;
   vertical-align: middle;
   margin-right: 20px;
@@ -153,6 +152,8 @@ export default {
 
 .drag {
   color: #fff;
+  width:80px;
+  /* height: 20px; */
   cursor: move;
   background: #777;
   border-right: 2px solid #666;
@@ -161,6 +162,8 @@ export default {
 
 .drop {
   background: #eee;
+  padding:3px;
+  height: 100px;
   border-top: 2px solid #ccc;
   border-left: 2px solid #ddd;
 }

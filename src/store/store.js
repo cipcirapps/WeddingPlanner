@@ -168,6 +168,34 @@ export const store = new Vuex.Store({
     getInvitati(state) {
       return state.invitati;
     },
+    getMeseInvitati(state){
+      var mese_array=[]
+      var nrMese=3
+      var nrLocuri=5
+
+      for (var i=1; i<=nrMese; i++){
+        mese_array.push({
+          nr:i,
+          locuri:[]
+        })
+        for (var j=1; j<=nrLocuri; j++){
+          mese_array[i-1].locuri.push([])
+        }
+      }
+
+      state.invitati.filter(om=>{
+        return  om.Masa!=undefined
+      }).forEach(om=>{
+        mese_array[parseInt(om.Masa)].locuri[parseInt(om.Loc)].push(om)
+      })
+      return mese_array
+    },
+    getInvitatiFaraLoc(state){
+      return state.invitati.filter(om=>{
+        return om.Masa==undefined
+      }
+      )
+    },
     getIndivNesositi(state) {
       return state.invitatiNesositi;
     },
@@ -240,11 +268,18 @@ export const store = new Vuex.Store({
         [payload.Field]: payload.Val
       });
     },
+    updateIniv_Masa({ commit }, payload) {
+      firebase.database.ref("Group/" + payload.FamId + "/Membri/" + payload.UID).update({
+        Masa:payload.Masa,
+        Loc:payload.Loc
+      });
+    },
     update_Invitat({ commit }, payload) {
       firebase.database
         .ref("Group/" + payload.GId + "/Membri/" + payload.id)
         .update({
           Prenume: payload.Prenume,
+          Masa:payload.Masa,
           Loc: payload.Loc,
           Sosit: payload.Sosit
         });
@@ -278,7 +313,7 @@ export const store = new Vuex.Store({
           payload.Membri.forEach(om => {
             var memObj = {};
             (memObj.GId = newFamKey),
-              (memObj.Loc = 0),
+              (memObj.Loc = ""),
               (memObj.Nume = group.Nume),
               (memObj.Prenume = om),
               (memObj.Sosit = false);
@@ -293,7 +328,7 @@ export const store = new Vuex.Store({
       // debugger;
       var memObj = {};
       (memObj.GId = payload.FamID),
-        (memObj.Loc = 0),
+        (memObj.Loc = ""),
         (memObj.Nume = payload.FamName),
         (memObj.Prenume = payload.MembName),
         (memObj.Sosit = false);
