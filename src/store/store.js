@@ -68,7 +68,7 @@ export const store = new Vuex.Store({
       }
       return GraphTest;
     },
-    getPieFams(state){
+    getPieFams(state) {
       var groupByStatus = {};
 
       state.statusList.forEach(stat => {
@@ -78,33 +78,31 @@ export const store = new Vuex.Store({
         groupByStatus[fam.Status.replace(" ", "_")].push(fam);
       });
 
-      var GraphTest = [ ['Familii', 'Numar']];
+      var GraphTest = [["Familii", "Numar"]];
 
       for (var key in groupByStatus) {
         var graphArr = [];
-        graphArr.push( key.replace("_", " "))
-        graphArr.push( groupByStatus[key].length)
-        
+        graphArr.push(key.replace("_", " "));
+        graphArr.push(groupByStatus[key].length);
 
         GraphTest.push(graphArr);
       }
       return GraphTest;
-
     },
-    getPieInvitati(state){
-      var GraphTest = [ ['Familii', 'Numar']];
+    getPieInvitati(state) {
+      var GraphTest = [["Familii", "Numar"]];
 
       var graphArr = [];
-      graphArr.push( "Nesositi")
-      graphArr.push( state.invitatiNesositi.length)
+      graphArr.push("Nesositi");
+      graphArr.push(state.invitatiNesositi.length);
 
-      GraphTest.push(graphArr)
-      
+      GraphTest.push(graphArr);
+
       graphArr = [];
-      graphArr.push( "Veniti")
-      graphArr.push( state.invitati.length-state.invitatiNesositi.length)
+      graphArr.push("Veniti");
+      graphArr.push(state.invitati.length - state.invitatiNesositi.length);
 
-      GraphTest.push(graphArr)
+      GraphTest.push(graphArr);
       return GraphTest;
     },
     getGraphInvitati(state) {
@@ -161,7 +159,7 @@ export const store = new Vuex.Store({
     },
     getInvitat(state) {
       return invID => {
-        console.log( invID.famID,invID.memID)
+        console.log(invID.famID, invID.memID);
         return state.invitati.find(om => {
           return om.GId == invID.famID && om.id == invID.memID;
         });
@@ -235,6 +233,11 @@ export const store = new Vuex.Store({
         Locatie: payload.Locatie,
         Status: payload.Status,
         Comments: payload.Comments
+      });
+    },
+    updateFam_Field({ commit }, payload) {
+      firebase.database.ref("Group/" + payload.FamID + "/").update({
+        [payload.Field]: payload.Val
       });
     },
     update_Invitat({ commit }, payload) {
