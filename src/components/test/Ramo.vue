@@ -1,10 +1,14 @@
 <template>
   <v-container>
     <div id="mese_board">
-      <div id="show_all_tables" class="masa_board" v-on:click="show_all_tables_flag = !show_all_tables_flag" >
-        <span  v-show="!show_all_tables_flag">All</span>
-        <span  v-show="show_all_tables_flag">x</span>
-        </div>
+      <div
+        id="show_all_tables"
+        class="masa_board"
+        v-on:click="show_all_tables_flag = !show_all_tables_flag"
+      >
+        <span v-show="!show_all_tables_flag">All</span>
+        <span v-show="show_all_tables_flag">x</span>
+      </div>
       <div
         class="masa_board"
         v-for="(masa,indx) in MeseInvitati"
@@ -24,11 +28,14 @@
       </drop>
     </div>
     <!-- Mese * Locuri -->
-    <div class="masa_display" v-for="(masa,masaI) in MeseInvitati" :key="masa.nr" v-show="masaI==masa_selectata || show_all_tables_flag">
-      
-      <div class="center_table">
-            masa:{{masaI}}
-      </div>
+    <div
+      class="masa_display"
+      ref="masa_display"
+      v-for="(masa,masaI) in MeseInvitati"
+      :key="masa.nr"
+      v-show="masaI==masa_selectata || show_all_tables_flag"
+      v-bind:style="contentHeight"
+    >
       <drop
         v-for="(loc,indx) in masa.locuri"
         :id="'drop_'+masaI+'_'+indx"
@@ -46,10 +53,6 @@
           :transfer-data="{ item: item, from:'loc', list: loc, inxLocuri:indx,inxMasa:masaI}"
         >{{ item.Prenume }} {{ item.Nume }}</drag>
       </drop>
-
-
-
-
     </div>
   </v-container>
 </template>
@@ -61,10 +64,12 @@ export default {
   data() {
     return {
       styleObject: [],
+      styleCenter: [],
       masa_selectata: 0,
-      show_all_tables_flag:true,
+      show_all_tables_flag: true,
       nrMese: 3,
       nrLocuri: 6,
+      contentHeight: { height: "500px" },
 
       mese_array: [],
       invitatiDepus: []
@@ -72,7 +77,7 @@ export default {
   },
   created() {
     this.genMeseArr();
-    this.initialize_style(); 
+    this.initialize_style();
   },
   updated() {
     // this.genMeseArr()
@@ -90,39 +95,88 @@ export default {
       return this.$store.getters.getGraphFams;
     }
   },
-  mounted: function () {
-  window.addEventListener('resize', this.handleResize)
-  this.rounded();
+  mounted: function() {
+    window.addEventListener("resize", this.handleResize);
+    this.rounded();
   },
   methods: {
-    handleResize (event) {
+    handleResize(event) {
       // this.fullHeight = document.documentElement.clientHeight;
-        console.log('resize');
-        this.rounded();
+      console.log("resize");
+      this.rounded();
     },
 
-    initialize_style(){
-      var nr_elem=this.MeseInvitati[0].locuri.length; 
-      for (var i=0; i<nr_elem; i++){
+    initialize_style() {
+      // debugger;
+
+      for (var i = 0; i < this.MeseInvitati[0].locuri.length; i++) {
         this.styleObject.push({
-          left: '0px',
-          top: '0px'
-        })
+          left: "0px",
+          top: "0px"
+        });
+      }
+      for (var i = 0; i < this.MeseInvitati.length; i++) {
+        this.styleCenter.push({
+          left: "0px",
+          top: "0px"
+        });
       }
     },
-    rounded(){
-      var nr_elem=this.MeseInvitati[0].locuri.length;
-      var arc=360/nr_elem;
+    rounded() {
+      var nr_elem = this.MeseInvitati[0].locuri.length;
+      var arc = 360 / nr_elem;
       // debugger;
-      var elem=this.$refs.mybox[0]
-      var w_box=this.$refs.mybox[0].$el.offsetWidth;
-      console.log(w_box);
-      console.log(window.innerWidth);
-      for (var i=0; i<nr_elem; i++){
-        this.styleObject[i].top=parseInt(this.styleObject[i].top)*i+'px';
-        console.log(parseInt(this.styleObject[i].top));
-      };
-      console.log(arc); 
+      var w_box = this.$refs.mybox[0].$el.offsetWidth;
+      var h_box = this.$refs.mybox[0].$el.offsetHeight;
+      var cont_max = this.$refs.masa_display[0].offsetWidth;
+      var table_width = 0;
+      var nr_layers = parseInt((nr_elem / 2 - 1) / 2);
+
+      for (var i = 0; i < this.MeseInvitati.length; i++) {
+        // debugger;
+        this.styleCenter[i].left = (cont_max - table_width) / 2 + "px";
+        this.styleCenter[i].top = (nr_layers + 1) * h_box + "px";
+      }
+
+      var mid_nr = nr_elem / 2;
+      var lefty = 0;
+
+      lefty = (cont_max - (mid_nr + 1) * w_box) / 2 - table_width;
+
+      for (var i = 0; i < nr_elem; i++) {
+        var topy = -1;
+        if (i == 0 || i == mid_nr) {
+          topy = topy + 0;
+        } else if (i < nr_elem / 2) {
+          if (i <= nr_elem / 4) {
+            topy = topy + i / 2;
+          } else {
+            topy = topy + nr_elem / 8 - (i - nr_elem / 4) / 2;
+          }
+        } else {
+          if (i <= (3 * nr_elem) / 4) {
+            topy = topy - (i - nr_elem / 2) / 2;
+          } else {
+            topy = topy - nr_elem / 8 + (i - (3 * nr_elem) / 4) / 2;
+          }
+
+          lefty = lefty - 2 * w_box;
+        }
+        console.log(i, lefty);
+
+        topy = -topy * h_box;
+        this.styleObject[i].top = parseInt(topy * 2 * 1) + "px";
+        this.styleObject[i].left = parseInt(lefty) + "px";
+
+        // console.log("nr_elem", nr_elem / 2);
+        if ((nr_elem / 2) % 2 == 0) {
+          this.contentHeight.height = (nr_elem / 2 + 1) * h_box + "px";
+        } else {
+          this.contentHeight.height = (nr_elem / 2) * h_box + "px";
+        }
+      }
+
+      console.log("h_box", h_box);
     },
     genMeseArr() {
       for (var i = 1; i <= this.nrMese; i++) {
@@ -163,7 +217,6 @@ export default {
       // toList.push(data.item)
     }
   }
-  
 };
 </script>
 
@@ -240,17 +293,20 @@ export default {
   margin: 5px;
 }
 .center_table {
-    width: 100px;
-    height: 100px;
-    background-color: darkcyan;
-    border-radius: 50%;
-    line-height: 100px;
+  width: 100px;
+  height: 100px;
+  background-color: darkcyan;
+  border-radius: 50%;
+  line-height: 100px;
+  position: relative;
 }
-.masa_display{
-  border: 1px solid darkblue
+.masa_display {
+  border: 1px solid darkblue;
+  display: flex;
 }
 
-.movable{
+.movable {
   border: 1px solid red;
+  position: relative;
 }
 </style>
