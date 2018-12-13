@@ -1,9 +1,7 @@
 <template>
   <v-container>
-
     <!-- Nealocati -->
-  
-   <div class="header">
+    <div class="header">
       <drop class="drop list" @drop="droped(InvitFaraLoc,false,...arguments)">
         <drag
           v-for="item in InvitFaraLoc"
@@ -15,22 +13,23 @@
     </div>
     <!-- Mese * Locuri -->
     <div v-for="(masa,masaI) in MeseInvitati" :key="masa.nr">
-        masa:{{masaI}}   
-        <drop v-for="(loc,indx) in masa.locuri" :key="indx"
-          class="drop list" 
-          @drop="droped(loc, true,...arguments)">
-          loc:{{indx}}
-          <drag
-            v-for="(item,j) in loc"
-            :key="j"
-            class="drag"
-            :transfer-data="{ item: item, from:'loc', list: loc, inxLocuri:indx,inxMasa:masaI}"
-          >{{ item.Prenume }} {{ item.Nume }}</drag>
-        </drop>
-      
+      masa:{{masaI}}
+      <drop
+        v-for="(loc,indx) in masa.locuri"
+        :id="'drop_'+masaI+'_'+indx"
+        :key="indx"
+        class="drop list"
+        @drop="droped(loc, true,...arguments)"
+      >
+        loc:{{indx}}
+        <drag
+          v-for="(item,j) in loc"
+          :key="j"
+          class="drag"
+          :transfer-data="{ item: item, from:'loc', list: loc, inxLocuri:indx,inxMasa:masaI}"
+        >{{ item.Prenume }} {{ item.Nume }}</drag>
+      </drop>
     </div>
-
-    
   </v-container>
 </template>
 <script>
@@ -42,62 +41,69 @@ export default {
     return {
       nrMese: 3,
       nrLocuri: 5,
-    
-    mese_array:[],
-    invitatiDepus:[]
+
+      mese_array: [],
+      invitatiDepus: []
     };
   },
   created() {
-   this.genMeseArr()
-
+    this.genMeseArr();
   },
-  updated(){
+  updated() {
     // this.genMeseArr()
-    console.log("updated")
+    console.log("updated");
   },
   computed: {
     InvitFaraLoc() {
       // invitatiDepus=this.$store.getters.getInvitati;
       return this.$store.getters.getInvitatiFaraLoc;
     },
-    MeseInvitati(){
+    MeseInvitati() {
       return this.$store.getters.getMeseInvitati;
     },
     famByStat() {
       return this.$store.getters.getGraphFams;
-    },
-    
+    }
   },
   methods: {
-    genMeseArr(){
-      for (var i=1; i<=this.nrMese; i++){
+    genMeseArr() {
+      for (var i = 1; i <= this.nrMese; i++) {
         this.mese_array.push({
-          nr:i,
-          locuri:[]
-        })
-        for (var j=1; j<=this.nrLocuri; j++){
-          this.mese_array[i-1].locuri.push([])
+          nr: i,
+          locuri: []
+        });
+        for (var j = 1; j <= this.nrLocuri; j++) {
+          this.mese_array[i - 1].locuri.push([]);
         }
       }
     },
-    droped(toList,inLoc,data){
+    droped(toList, inLoc, data, event) {
       var fromList = data.list;
-      
-      if (inLoc && data.from=='head'){      
-        // debugger  
-          // this.InvitFaraLoc.splice(this.InvitFaraLoc.indexOf(data.item),1)
-          var payload={
-            FamId:data.item.GId,
-            UID:data.item.id,
-            Masa:0,
-            Loc:2
-          }
-          this.$store.dispatch("updateIniv_Masa",payload)
-      }else{
-        // this.genMeseArr[data.inxMasa].locuri[data.inxLocuri].splice(0,1)
+      var TargetID = event.target.id;
+      var tMasa = TargetID.split("_")[1];
+      var tLoc = TargetID.split("_")[2];
+
+      if (inLoc) {
+        // debugger;
+        // this.InvitFaraLoc.splice(this.InvitFaraLoc.indexOf(data.item),1)
+        var payload = {
+          FamId: data.item.GId,
+          UID: data.item.id,
+          Masa: tMasa,
+          Loc: tLoc
+        };
+        this.$store.dispatch("updateIniv_Masa", payload);
+      } else {
+        var payload = {
+          FamId: data.item.GId,
+          UID: data.item.id,
+          Masa: "",
+          Loc: ""
+        };
+        this.$store.dispatch("updateIniv_Masa", payload);
       }
       // toList.push(data.item)
-    },
+    }
   }
 };
 </script>
@@ -152,7 +158,7 @@ export default {
 
 .drag {
   color: #fff;
-  width:80px;
+  width: 80px;
   /* height: 20px; */
   cursor: move;
   background: #777;
@@ -162,7 +168,7 @@ export default {
 
 .drop {
   background: #eee;
-  padding:3px;
+  padding: 3px;
   height: 100px;
   border-top: 2px solid #ccc;
   border-left: 2px solid #ddd;

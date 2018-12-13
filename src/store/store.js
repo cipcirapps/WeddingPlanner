@@ -168,33 +168,34 @@ export const store = new Vuex.Store({
     getInvitati(state) {
       return state.invitati;
     },
-    getMeseInvitati(state){
-      var mese_array=[]
-      var nrMese=3
-      var nrLocuri=5
+    getMeseInvitati(state) {
+      var mese_array = [];
+      var nrMese = 3;
+      var nrLocuri = 5;
 
-      for (var i=1; i<=nrMese; i++){
+      for (var i = 1; i <= nrMese; i++) {
         mese_array.push({
-          nr:i,
-          locuri:[]
-        })
-        for (var j=1; j<=nrLocuri; j++){
-          mese_array[i-1].locuri.push([])
+          nr: i,
+          locuri: []
+        });
+        for (var j = 1; j <= nrLocuri; j++) {
+          mese_array[i - 1].locuri.push([]);
         }
       }
 
-      state.invitati.filter(om=>{
-        return  om.Masa!=undefined
-      }).forEach(om=>{
-        mese_array[parseInt(om.Masa)].locuri[parseInt(om.Loc)].push(om)
-      })
-      return mese_array
+      state.invitati
+        .filter(om => {
+          return !(om.Masa == undefined || om.Masa == "");
+        })
+        .forEach(om => {
+          mese_array[parseInt(om.Masa)].locuri[parseInt(om.Loc)].push(om);
+        });
+      return mese_array;
     },
-    getInvitatiFaraLoc(state){
-      return state.invitati.filter(om=>{
-        return om.Masa==undefined
-      }
-      )
+    getInvitatiFaraLoc(state) {
+      return state.invitati.filter(om => {
+        return om.Masa == undefined || om.Masa == "";
+      });
     },
     getIndivNesositi(state) {
       return state.invitatiNesositi;
@@ -269,17 +270,19 @@ export const store = new Vuex.Store({
       });
     },
     updateIniv_Masa({ commit }, payload) {
-      firebase.database.ref("Group/" + payload.FamId + "/Membri/" + payload.UID).update({
-        Masa:payload.Masa,
-        Loc:payload.Loc
-      });
+      firebase.database
+        .ref("Group/" + payload.FamId + "/Membri/" + payload.UID)
+        .update({
+          Masa: payload.Masa,
+          Loc: payload.Loc
+        });
     },
     update_Invitat({ commit }, payload) {
       firebase.database
         .ref("Group/" + payload.GId + "/Membri/" + payload.id)
         .update({
           Prenume: payload.Prenume,
-          Masa:payload.Masa,
+          Masa: payload.Masa,
           Loc: payload.Loc,
           Sosit: payload.Sosit
         });
