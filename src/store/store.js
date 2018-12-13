@@ -171,7 +171,7 @@ export const store = new Vuex.Store({
     getMeseInvitati(state) {
       var mese_array = [];
       var nrMese = 3;
-      var nrLocuri = 5;
+      var nrLocuri = 6;
 
       for (var i = 1; i <= nrMese; i++) {
         mese_array.push({

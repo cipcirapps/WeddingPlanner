@@ -1,5 +1,17 @@
 <template>
   <v-container>
+    <div id="mese_board">
+      <div id="show_all_tables" class="masa_board" v-on:click="show_all_tables_flag = !show_all_tables_flag" >
+        <span  v-show="!show_all_tables_flag">All</span>
+        <span  v-show="show_all_tables_flag">x</span>
+        </div>
+      <div
+        class="masa_board"
+        v-for="(masa,indx) in MeseInvitati"
+        :key="indx"
+        v-on:click="masa_selectata = indx"
+      >{{indx}}</div>
+    </div>
     <!-- Nealocati -->
     <div class="header">
       <drop class="drop list" @drop="droped(InvitFaraLoc,false,...arguments)">
@@ -12,14 +24,19 @@
       </drop>
     </div>
     <!-- Mese * Locuri -->
-    <div v-for="(masa,masaI) in MeseInvitati" :key="masa.nr">
-      masa:{{masaI}}
+    <div class="masa_display" v-for="(masa,masaI) in MeseInvitati" :key="masa.nr" v-show="masaI==masa_selectata || show_all_tables_flag">
+      
+      <div class="center_table">
+            masa:{{masaI}}
+      </div>
       <drop
         v-for="(loc,indx) in masa.locuri"
         :id="'drop_'+masaI+'_'+indx"
         :key="indx"
-        class="drop list"
+        class="drop list movable"
         @drop="droped(loc, true,...arguments)"
+        v-bind:style="styleObject[indx]"
+        ref="mybox"
       >
         loc:{{indx}}
         <drag
@@ -29,6 +46,10 @@
           :transfer-data="{ item: item, from:'loc', list: loc, inxLocuri:indx,inxMasa:masaI}"
         >{{ item.Prenume }} {{ item.Nume }}</drag>
       </drop>
+
+
+
+
     </div>
   </v-container>
 </template>
@@ -39,8 +60,11 @@ export default {
   components: { Drag, Drop },
   data() {
     return {
+      styleObject: [],
+      masa_selectata: 0,
+      show_all_tables_flag:true,
       nrMese: 3,
-      nrLocuri: 5,
+      nrLocuri: 6,
 
       mese_array: [],
       invitatiDepus: []
@@ -48,6 +72,7 @@ export default {
   },
   created() {
     this.genMeseArr();
+    this.initialize_style(); 
   },
   updated() {
     // this.genMeseArr()
@@ -65,7 +90,40 @@ export default {
       return this.$store.getters.getGraphFams;
     }
   },
+  mounted: function () {
+  window.addEventListener('resize', this.handleResize)
+  this.rounded();
+  },
   methods: {
+    handleResize (event) {
+      // this.fullHeight = document.documentElement.clientHeight;
+        console.log('resize');
+        this.rounded();
+    },
+
+    initialize_style(){
+      var nr_elem=this.MeseInvitati[0].locuri.length; 
+      for (var i=0; i<nr_elem; i++){
+        this.styleObject.push({
+          left: '0px',
+          top: '0px'
+        })
+      }
+    },
+    rounded(){
+      var nr_elem=this.MeseInvitati[0].locuri.length;
+      var arc=360/nr_elem;
+      // debugger;
+      var elem=this.$refs.mybox[0]
+      var w_box=this.$refs.mybox[0].$el.offsetWidth;
+      console.log(w_box);
+      console.log(window.innerWidth);
+      for (var i=0; i<nr_elem; i++){
+        this.styleObject[i].top=parseInt(this.styleObject[i].top)*i+'px';
+        console.log(parseInt(this.styleObject[i].top));
+      };
+      console.log(arc); 
+    },
     genMeseArr() {
       for (var i = 1; i <= this.nrMese; i++) {
         this.mese_array.push({
@@ -105,6 +163,7 @@ export default {
       // toList.push(data.item)
     }
   }
+  
 };
 </script>
 
@@ -112,24 +171,7 @@ export default {
 .drag {
   display: inline-block;
 }
-.drag.A {
-  background: #aaa;
-}
-.drag.B {
-  background: #888;
-}
-.drag.C {
-  background: #666;
-}
-.drag.D {
-  background: #444;
-}
-.drag.E {
-  background: #222;
-}
-.drag.F {
-  background: #000;
-}
+
 .drop {
   display: inline-block;
   vertical-align: top;
@@ -177,5 +219,38 @@ export default {
 .header .drop {
   background-color: rgb(193, 219, 193);
   width: 100%;
+}
+
+#mese_board {
+  width: 100%;
+  background-color: #aaa;
+}
+
+.masa_board {
+  width: 50px;
+  height: 50px;
+  background-color: #81d8d0;
+  display: inline-flex;
+  border: 1px solid #009688;
+  border-radius: 50%;
+  text-align: center;
+  align-items: center;
+  padding: 15px;
+  font-size: 20px;
+  margin: 5px;
+}
+.center_table {
+    width: 100px;
+    height: 100px;
+    background-color: darkcyan;
+    border-radius: 50%;
+    line-height: 100px;
+}
+.masa_display{
+  border: 1px solid darkblue
+}
+
+.movable{
+  border: 1px solid red;
 }
 </style>
