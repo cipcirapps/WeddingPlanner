@@ -22,7 +22,7 @@
       <v-data-table
         :headers="headers"
         :items="itm"
-        item-key="Nume"
+        item-key="FamID"
         class="elevation-1"
         :search="searchDeinv"
       >
