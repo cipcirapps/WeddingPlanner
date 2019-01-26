@@ -167,29 +167,7 @@ export const store = new Vuex.Store({
     },
     getInvitati(state) {
       return state.invitati;
-    },
-    getMeseInvitati(state){
-      var mese_array=[]
-      var nrMese=3
-      var nrLocuri=5
-
-      for (var i=1; i<=nrMese; i++){
-        mese_array.push({
-          nr:i,
-          locuri:[]
-        })
-        for (var j=1; j<=nrLocuri; j++){
-          mese_array[i-1].locuri.push([])
-        }
-      }
-
-      state.invitati.filter(om=>{
-        return  om.Masa!=undefined
-      }).forEach(om=>{
-        mese_array[parseInt(om.Masa)].locuri[parseInt(om.Loc)].push(om)
-      })
-      return mese_array
-    },
+    },    
     getInvitatiFaraLoc(state){
       return state.invitati.filter(om=>{
         return om.Masa==undefined

@@ -61,7 +61,7 @@ export default {
       return this.$store.getters.getInvitatiFaraLoc;
     },
     MeseInvitati(){
-      return this.$store.getters.getMeseInvitati;
+      //return this.$store.getters.getMeseInvitati;
     },
     famByStat() {
       return this.$store.getters.getGraphFams;
