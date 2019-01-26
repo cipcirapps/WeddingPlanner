@@ -247,17 +247,19 @@ export const store = new Vuex.Store({
       });
     },
     updateIniv_Masa({ commit }, payload) {
-      firebase.database.ref("Group/" + payload.FamId + "/Membri/" + payload.UID).update({
-        Masa:payload.Masa,
-        Loc:payload.Loc
-      });
+      firebase.database
+        .ref("Group/" + payload.FamId + "/Membri/" + payload.UID)
+        .update({
+          Masa: payload.Masa,
+          Loc: payload.Loc
+        });
     },
     update_Invitat({ commit }, payload) {
       firebase.database
         .ref("Group/" + payload.GId + "/Membri/" + payload.id)
         .update({
           Prenume: payload.Prenume,
-          Masa:payload.Masa,
+          Masa: payload.Masa,
           Loc: payload.Loc,
           Sosit: payload.Sosit
         });
