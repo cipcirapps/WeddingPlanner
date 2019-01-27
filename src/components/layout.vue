@@ -6,7 +6,7 @@
       <div class="text-xs-center">
       
       <svg :width="Svg.w" :height="Svg.h">
-        <!-- layouts -->
+        <!-- background shapes -->
         <g v-for="(shape,n,i) in Layout" :key="i">
           <rect 
           :x="shape.x+'%'"
@@ -22,11 +22,12 @@
           >
           {{shape.name}}
           </text>
-
         </g>
+
         <g v-for="(masa,indM) in MeseData" :key="indM">
+          <!-- masa -->
           <circle :id="masa.id" :cx="masa.x" :cy="masa.y" :r="DeffMasa.r" class="masa"></circle>
-          <text :x="masa.x-5" :y="masa.y+4" class="txtMasa">{{indM+1}}</text>
+          <text :x="masa.x-(indM+1).toString().length*5" :y="masa.y+5" class="txtMasa">{{indM+1}}</text>
           <!-- sateliti -->
           <g v-for="(loc,indL) in masa.locuri" :key="indL">
             <circle
@@ -49,7 +50,7 @@
       </svg>
       </div>    
     </v-layout>
-    
+     <!-- invitati fara loc -->
       <v-dialog persistent dark v-model="Stage.showRemain">
         <v-card >
           <v-card-title>
@@ -61,7 +62,9 @@
               :key="i"
               @click="AddToLoc(om)"
               class="clickable"
-            >{{om.Nume}} {{om.Prenume}}</v-chip>
+            >
+            <v-avatar :class="om.Locatie.substring(0,3)">{{om.Locatie.substring(0,3)}}</v-avatar>
+            {{om.Nume}} {{om.Prenume}}</v-chip>
           </v-card-text>
           <v-card-actions>
           <v-spacer></v-spacer>
@@ -245,7 +248,11 @@ export default {
     invRamasi() {
       return this.InvArr.filter(om => {
         return om.Loc === "";
-      });
+      }).sort((a, b) => {
+        if (a.Nume < b.Nume) return -1;
+        if (a.Nume > b.Nume) return 1;
+        return 0;
+      })
     },
     InvArr() {
       return this.$store.getters.getInvitati;
@@ -292,6 +299,13 @@ svg {
 
 div .listOm {
   margin-top: 10px;
+}
+/* invitati ramasi */
+.Buz{
+  background-color: #90caf9
+}
+.Sla{
+   background-color: #4db6ac  
 }
 </style>
 <style>
