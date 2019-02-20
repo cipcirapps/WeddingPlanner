@@ -3,6 +3,7 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
+import fireOBJ from "firebase"
 
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
@@ -41,6 +42,14 @@ new Vue({
   components: { App },
   template: "<App/>",
   created: function() {
+    fireOBJ.auth().onAuthStateChanged((user)=>{
+      if(user){        
+        this.$store.dispatch('autoSingIn',user)
+      }
+      // }else{
+      //   this.$store.dispatch('signUserOut',user)
+      // }
+    })
     this.$store.dispatch("loadFireStatus");
   }
 });

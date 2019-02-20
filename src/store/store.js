@@ -2,6 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import firebase from "./firebase";
+import fireOBJ from "firebase"
+import { debug } from "util";
+import router from "../router";
 
 Vue.use(Vuex);
 Vue.use(firebase);
@@ -14,9 +17,13 @@ export const store = new Vuex.Store({
     statusList: [],
     groupByStatus: {},
     familii: [],
-    familiiConf: []
+    familiiConf: [],
+    user:null
   },
   getters: {
+    user(state){
+      return state.user
+    },
     getStatusList(state) {
       return state.statusList;
     },
@@ -182,6 +189,13 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
+    setUser(state, payload){
+      state.user =payload
+    },
+    removeUser(state, payload){
+      state.user =null
+    },
+    
     updateStatus(state, payload) {
       state.statusList = payload.split("#");
       state.groupByStatus = {};
@@ -224,6 +238,60 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    autoSingIn({commit},payload){
+      console.log("autosign")
+      let isAdmin=false
+      let isEditor=false
+
+        firebase.database.ref("Users/"+payload.uid).on("value", querySnapshot => {
+          console.log(querySnapshot.val())
+          if(querySnapshot.val().hasAdmin){
+            isAdmin=true
+            isEditor=true
+          }else{
+            isEditor=true
+          }          
+          let userObj={
+            id:payload.uid,
+            email:payload.email,
+            hasAdmin:isAdmin,
+            hasEdit:isEditor
+          }
+        commit('setUser',userObj)
+        })
+        
+    },
+    signUserIn({commit},payload){
+      fireOBJ.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      .then(clbuser=>{
+        //check user permissions
+        let isAdmin=false
+        let isEditor=false
+        firebase.database.ref("Users/"+clbuser.user.uid).on("value", querySnapshot => {
+          if(querySnapshot.val().hasAdmin){
+            isAdmin=true
+            isEditor=true
+          }else{
+            isEditor=true
+          }
+          let userObj={
+            id:clbuser.user.uid,
+            email:clbuser.user.email,
+            hasAdmin:isAdmin,
+            hasEdit:isEditor
+          }
+          console.log("sign user in")
+          commit('setUser',userObj)
+        })
+      }).catch(error=>{console.log(error)})
+    },
+    signUserOut({commit}){
+      fireOBJ.auth().signOut().then(()=>{
+        console.log("removed user")
+        commit('removeUser')
+        router.push("/login")
+      })
+    },
     //API calls - and commit mutations
     loadFireStatus({ commit }) {
       firebase.database.ref("Liste/Status").on("value", querySnapshot => {

@@ -56,28 +56,22 @@ export default {
   methods: {
     login() {
       if (this.valid) {
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(this.email, this.pass)
-          .then(
-            user => {
-              //alert(`You are logged in as ${user.email}`);
-              //this.$router.go({ path: this.$router.path });
-              this.alert = true;
-              this.alertMessage = `You are logged in as ${user.email}`;
-
-              this.$router.push("/");
-              //this.$router.push("/view/cols")
-            },
-            err => {
-              // alert(err.message);
-              //   M.toast({ html: err.message });
-              this.alert = true;
-              this.alertMessage = err.message;
-            }
-          );
+        this.$store.dispatch('signUserIn',{email:this.email, password:this.pass})
+      }
+    }
+  },
+  computed:{
+    user(){
+      return this.$store.getters.user
+    }
+  },
+  watch:{
+    user(value){
+      if (value !==null & value !== undefined){
+        this.$router.push("/")
       }
     }
   }
+
 };
 </script>
