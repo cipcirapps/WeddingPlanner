@@ -34,22 +34,24 @@
                   </v-card-title>                 
                   <v-card-text>
                     <div>Locatie : {{indiv.Locatie}}</div>
-                    <v-chip class="cyan lighten-2"><span>Masa: <b>{{indiv.Masa}}</b></span></v-chip>
-                    <v-chip class="teal lighten-3"><span>Loc: {{indiv.Loc}} </span>
+                    <div>Masa: <v-chip class="deep-orange lighten-4"><span><b>{{indiv.Masa}}</b></span></v-chip></div>
+                    Loc: <v-chip class="brown lighten-5"><span><b>{{indiv.Loc}}</b> </span>
                     </v-chip>
                   </v-card-text>
-                  <v-card-actions>
-                  <v-btn flat class="veniti" @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
-                  v-if="!indiv.Sosit"
-                  >
-                      <v-icon left dark>done</v-icon>Sosit
-                  </v-btn>
-                  <v-btn 
-                    flat color="warning" 
-                    @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
-                    v-else>
-                      <v-icon left dark>undo</v-icon>Ne venit
-                  </v-btn>
+                  <v-card-actions style="justify-content: center;">
+                    
+                      <v-btn flat class="veniti" @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
+                      v-if="!indiv.Sosit"
+                      >
+                          <v-icon left dark>done</v-icon>Sosit
+                      </v-btn>
+                      <v-btn 
+                        flat color="nesositi" 
+                        @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
+                        v-else>
+                          <v-icon left dark>undo</v-icon>Ne venit
+                      </v-btn>
+                    
                   </v-card-actions>
                 </v-card>
           </v-flex>

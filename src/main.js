@@ -20,14 +20,16 @@ import VueGoogleCharts from 'vue-google-charts'
 Vue.use(Vuetify, {
   theme: {
     primary: "#009688", // teal
+    // primary:"#ff80ab",// pink accent-1
     secondary: "#424242",
     accent: "#1867c0",
     error: "#FF5252",
     info: "#2196F3",
     success: "#00c853", // green accent-4
     warning: "#FFC107",
-    veniti:"#a0cfff",
-    nesositi:"#ffc107"
+    veniti:"#e1f5fe",//"#a0cfff",
+    nesositi:"#ffc107",//"#ffc107" "#cfd8dc"
+    
   }
 });
 Vue.use(VueGoogleCharts)
