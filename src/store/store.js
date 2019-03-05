@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
     loaded: false,
     invitati: [],
     invitatiNesositi: [],
+    invitatiSositi: [],
     statusList: [],
     groupByStatus: {},
     familii: [],
@@ -184,6 +185,9 @@ export const store = new Vuex.Store({
     getIndivNesositi(state) {
       return state.invitatiNesositi;
     },
+    getIndivSositi(state) {
+      return state.invitatiSositi;
+    },
     loaded(state) {
       return state.loaded;
     }
@@ -233,6 +237,10 @@ export const store = new Vuex.Store({
       //Set invitati confirmati
       state.invitatiNesositi = state.invitati.filter(om => {
         return !om.Sosit;
+      });
+      //Set invitati sositi
+      state.invitatiSositi = state.invitati.filter(om => {
+        return om.Sosit;
       });
       state.loaded = true;
     }

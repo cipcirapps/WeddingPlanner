@@ -307,6 +307,9 @@ div .listOm {
 .Sla{
    background-color: #4db6ac  
 }
+.Bra{
+   background-color: #4db652  
+}
 </style>
 <style>
 .v-chip__content{

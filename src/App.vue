@@ -105,7 +105,7 @@ export default {
       if(this.userIsAuthenticated){
         if(this.userIsAuthenticated.hasAdmin){
         menuItems=[
-          { icon: "done", title: "Nesositi", link: "/conf_notArr" },
+          // { icon: "done", title: "Nesositi", link: "/conf_notArr" },
           { icon: "contacts", title: "Confirmati", link: "/confirmed" },
           { icon: "people", title: "Toate Fams", link: "/view_all" },
           { icon: "view_module", title: "Asezare", link: "/layout" },
@@ -125,7 +125,7 @@ export default {
       return menuItems
     },
     userIsAuthenticated(){      
-      return this.$store.getters.user!=null && this.$store.getters.user!=undefined
+      return this.$store.getters.user
     }
   }
 };

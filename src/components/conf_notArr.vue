@@ -51,39 +51,6 @@
         </v-layout>
         
       </v-card>
-    
-
-      <!-- cards -->
-      <v-container v-if="false" grid-list-xl>        
-          Ramasi: <b>{{Nesositi.length}}</b>
-        <v-layout align-center justify-space-around row wrap>
-            <v-flex 
-            xs12 sm3 
-            v-for="indiv in Nesositi" v-bind:key="indiv.id"> 
-                <v-card                
-                class="mb-2"
-                >
-                  <v-card-title class="pb-2 nesositi" >
-                    <div class="subheading">
-                      <span class="mb-0">{{indiv.Prenume}} </span>
-                      <span class="mb-0 text-uppercase">{{indiv.Nume}}</span>
-                    </div>
-                  </v-card-title>                 
-                  <v-card-text>
-                    <div>Locatie : {{indiv.Locatie}}</div>
-                    <v-chip class="cyan lighten-2"><span>Masa: <b>{{indiv.Masa}}</b></span></v-chip>
-                    <v-chip class="teal lighten-3"><span>Loc: {{indiv.Loc}} </span>
-                    </v-chip>
-                  </v-card-text>
-                  <v-card-actions>
-                  <v-btn flat class="veniti" @click="setSosit(indiv.GId,indiv.id)">
-                      <v-icon left dark>done</v-icon>Sosit                        
-                  </v-btn>                    
-                  </v-card-actions>
-                </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
   </v-container>
 </template>
 
