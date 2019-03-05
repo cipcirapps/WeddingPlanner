@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Dashboard from "@/components/Dashboard";
-import conf_notArr from "@/components/conf_notArr";
+
 import confirmed from "@/components/confirmed";
 import view_all from "@/components/view_all";
 import layout from "@/components/layout";
@@ -34,13 +34,7 @@ export default new Router({
       name: "confirmed",
       component: confirmed,
       beforeEnter:AuthGuard.guardEdit
-    },
-    {
-      path: "/conf_notArr",
-      name: "conf_notArr",
-      component: conf_notArr,
-      beforeEnter:AuthGuard.guardEdit
-    },
+    },    
     {
       path: "/view_all",
       name: "view_all",

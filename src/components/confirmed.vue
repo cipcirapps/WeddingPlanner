@@ -1,17 +1,17 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-space-between row fill-height>
-      <v-flex class="xs4 text-xs-center">
-        <v-text-field v-model="PrenumeFilter" clearable label="Cauta prenume"></v-text-field>
-      </v-flex>
-      <v-flex xs4>
+      <v-flex class="xs5 text-xs-center">
         <v-text-field v-model="FamFilter" clearable label="Cauta familie"></v-text-field>
+      </v-flex>
+      <v-flex xs5>
+        <v-text-field v-model="PrenumeFilter" clearable label="Cauta nume"></v-text-field>
       </v-flex>
     </v-layout>
     <!-- tabel -->
     <v-card>
       <!-- header -->
-      <v-layout class="pt-2 header subheading primary white--text" fill-height>
+      <v-layout class="pt-2 header subheading primary white--text hidden-xs-only" fill-height>
         <v-flex xs12 sm5><span class="text-uppercase">Prenume</span> Nume</v-flex>
         <v-flex xs12 sm2>Locatie</v-flex>
         <v-flex xs12 sm2>Masa : Loc</v-flex>
@@ -19,56 +19,45 @@
       </v-layout>
       <!-- rows Nesositi-->
       <v-subheader>Nesositi: {{Nesositi.length}}</v-subheader>
-      <v-layout v-for="indiv in Nesositi" v-bind:key="indiv.id" class="my-1 tblBod veniti">
-        <v-flex tabindex="1" class="font-weight-bold" xs12 sm5>
+      <v-layout v-for="indiv in Nesositi" v-bind:key="indiv.id" class="my-1 tblBod blue lighten-5" wrap>
+        <v-flex  class="font-weight-bold" xs6 sm5>
           <span class="mb-0 mr-2 text-uppercase">{{indiv.Nume}}</span>
           <span class="mb-0">{{indiv.Prenume}}</span>
         </v-flex>
-        <v-flex xs12 sm2>{{indiv.Locatie}}</v-flex>
-        <v-flex xs12 sm2 class="text-xs-center subheading">
+        <v-flex xs6 sm2>{{indiv.Locatie}}</v-flex>
+        <v-flex xs6 sm2 class="text-xs-center subheading">
           <v-chip outline color="black">{{indiv.Masa}}</v-chip>
           <v-icon small left color="blue">event_seat</v-icon>
           <span class="blue--text text--darken-4">{{indiv.Loc}}</span>
         </v-flex>
-        <v-flex xs12 sm3 class="text-xs-right" style="justify-content:flex-end">
+        <v-flex xs6 sm3 class="text-xs-right" style="justify-content:flex-end">
           <v-btn
-            flat
-            class="veniti"
+            outline
+            color="#26a69a"
             @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
             v-if="!indiv.Sosit"
           >
             <v-icon left dark>done</v-icon>Sosit
           </v-btn>
-          <v-btn flat color="nesositi" @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)" v-else>
-            <v-icon left dark>undo</v-icon>Ne venit
-          </v-btn>
+          
         </v-flex>
       </v-layout>
-       <!-- rows Sositi-->
-       
        <v-divider class="mb-1"/>
+       <!-- rows Sositi-->       
        <v-subheader>Ajunsi: {{Sositi.length}}</v-subheader>
-      <v-layout v-for="indiv in Sositi" v-bind:key="indiv.id" class="my-1 tblBodAjunsi">
-        <v-flex tabindex="1" class="font-weight-bold" xs12 sm5>
+      <v-layout v-for="indiv in Sositi" v-bind:key="indiv.id" class="my-1 tblBodAjunsi blue-grey lighten-4" wrap>
+        <v-flex tabindex="1" class="font-weight-bold" xs6 sm5>
           <span class="mb-0 mr-2 text-uppercase">{{indiv.Nume}}</span>
           <span class="mb-0">{{indiv.Prenume}}</span>
         </v-flex>
-        <v-flex xs12 sm2>{{indiv.Locatie}}</v-flex>
-        <v-flex xs12 sm2 class="text-xs-center subheading">
+        <v-flex xs6 sm2>{{indiv.Locatie}}</v-flex>
+        <v-flex xs6 sm2 class="text-xs-center subheading">
           <v-chip outline color="black">{{indiv.Masa}}</v-chip>
           <v-icon small left color="blue" class="mr-2">event_seat</v-icon>
           <span class="blue--text text--darken-4">{{indiv.Loc}}</span>
         </v-flex>
-        <v-flex xs12 sm3 class="text-xs-right" style="justify-content:flex-end">
-          <v-btn
-            flat
-            class="veniti"
-            @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)"
-            v-if="!indiv.Sosit"
-          >
-            <v-icon left dark>done</v-icon>Sosit
-          </v-btn>
-          <v-btn flat color="nesositi" @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)" v-else>
+        <v-flex xs6 sm3 class="text-xs-right" style="justify-content:flex-end">         
+          <v-btn outline color="#64b5f6" @click="setSosit(indiv.GId,indiv.id,!indiv.Sosit)">
             <v-icon left dark>undo</v-icon>Ne venit
           </v-btn>
         </v-flex>
@@ -150,9 +139,9 @@ export default {
   margin: 0 3px;
   padding: 5px;
 }
-.tblBod{
+/* .tblBod{
   border:solid 2px lightgray;
-}
+} */
 .tblBod .flex {
   /* background-color: whitesmoke; */
   /* margin: 0 3px; */
@@ -162,7 +151,7 @@ export default {
 }
 
 .tblBodAjunsi .flex {
-  background-color: lightgray;
+  /* background-color: lightgray; */
   color: grey;
   /* margin: 0 3px; */
   padding: 0 3px;

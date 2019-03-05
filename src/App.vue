@@ -35,7 +35,7 @@
     </v-navigation-drawer>
   <!-- top toolbar -->
     <v-toolbar dark class="primary" fluid >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up">
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-sm-and-up">
 
       </v-toolbar-side-icon>
       <v-toolbar-title>
@@ -44,7 +44,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-sm-and-down">
+      <v-toolbar-items class="hidden-xs-only">
         <v-btn 
           flat v-for="item in menuItems" 
           :key="item.title"
@@ -116,7 +116,7 @@ export default {
         //editors
         else{
           menuItems=[
-          { icon: "done", title: "Nesositi", link: "/conf_notArr" },
+          // { icon: "done", title: "Nesositi", link: "/conf_notArr" },
           { icon: "contacts", title: "Confirmati", link: "/confirmed" }
           ]
 
