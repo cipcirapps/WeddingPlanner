@@ -16,8 +16,45 @@
           ></v-text-field>
       </v-flex>
     </v-layout>
+    <!-- tabel -->
+    
+
+      <v-card>
+        <!-- header -->
+        <v-layout class="pt-2 header subheading primary white--text"  fill-height >
+          <v-flex xs12 sm5>
+            Nume prenume
+          </v-flex>
+          <v-flex xs12 sm2>Locatie</v-flex>
+          <v-flex xs12 sm2>Masa : Loc</v-flex>          
+          <v-flex xs12 sm3 class="text-xs-right" >Actions</v-flex>
+        </v-layout>
+        <!-- rows -->
+        
+        <v-layout v-for="indiv in Nesositi" v-bind:key="indiv.id" class="my-1 tblBod" >
+          <v-flex tabindex="1" class="font-weight-bold" xs12 sm5>
+            <span class="mb-0 mr-2">{{indiv.Prenume}}</span>
+             <span class="mb-0 text-uppercase">{{indiv.Nume}}</span>
+          </v-flex>
+          <v-flex xs12 sm2>{{indiv.Locatie}}</v-flex>
+          <v-flex xs12 sm2 class="text-xs-center subheading">            
+              <v-chip outline color="black"> {{indiv.Masa}} </v-chip> 
+            <v-icon small left color="blue" class="mr-2">event_seat</v-icon>
+            <span class="blue--text text--darken-4">{{indiv.Loc}}</span>
+            
+          </v-flex>
+          <v-flex xs12 sm3 class="text-xs-right" style="justify-content:flex-end">
+            <v-btn right small outline color="blue" @click="setSosit(indiv.GId,indiv.id)">
+                      <v-icon left dark>done</v-icon>Sosit                        
+                  </v-btn>
+            </v-flex>
+        </v-layout>
+        
+      </v-card>
+    
+
       <!-- cards -->
-      <v-container grid-list-xl>        
+      <v-container v-if="false" grid-list-xl>        
           Ramasi: <b>{{Nesositi.length}}</b>
         <v-layout align-center justify-space-around row wrap>
             <v-flex 
@@ -86,3 +123,23 @@ export default {
   }
 };
 </script>
+<style>
+/* .flex{
+  border: solid 1px lightblue
+} */
+.header .flex{  
+  margin: 0 3px;
+  padding: 5px
+}
+.tblBod .flex{
+  background-color: whitesmoke;
+  margin: 0 3px;
+  padding: 0 3px;
+      align-items: center;
+    display: flex;
+}
+.tabindex:focus{
+  background-color:lightblue;
+}
+
+</style>
