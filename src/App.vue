@@ -100,7 +100,8 @@ export default {
     },
     menuItems(){
       let menuItems=[{
-         icon: "people", title: "Login", link: "/login" 
+         icon: "contacts", title: "Confirmati", link: "/confirmed"},
+         {icon: "people", title: "Login", link: "/login" 
       }]
       if(this.userIsAuthenticated){
         if(this.userIsAuthenticated.hasAdmin){

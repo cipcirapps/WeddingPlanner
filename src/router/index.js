@@ -33,7 +33,7 @@ export default new Router({
       path: "/confirmed",
       name: "confirmed",
       component: confirmed,
-      beforeEnter:AuthGuard.guardEdit
+      // beforeEnter:AuthGuard.guardEdit
     },    
     {
       path: "/view_all",
