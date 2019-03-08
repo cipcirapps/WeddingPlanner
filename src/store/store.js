@@ -19,9 +19,13 @@ export const store = new Vuex.Store({
     groupByStatus: {},
     familii: [],
     familiiConf: [],
-    user:null
+    user:null,
+    errObj:null,
   },
   getters: {
+    errObj(state){
+      return state.errObj
+    },
     user(state){
       return state.user
     },
@@ -196,6 +200,9 @@ export const store = new Vuex.Store({
     setUser(state, payload){
       state.user =payload
     },
+    setError(state,payload){
+      state.errObj=payload
+    },
     removeUser(state, payload){
       state.user =null
     },
@@ -291,12 +298,17 @@ export const store = new Vuex.Store({
           console.log("sign user in")
           commit('setUser',userObj)
         })
-      }).catch(error=>{console.log(error)})
+      }).catch(error=>{
+        commit("setError",error)
+        console.log(error)
+      })
     },
     signUserOut({commit}){
       fireOBJ.auth().signOut().then(()=>{
         console.log("removed user")
         commit('removeUser')
+
+        commit("setError",null)
         router.push("/login")
       })
     },

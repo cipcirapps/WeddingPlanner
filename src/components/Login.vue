@@ -26,7 +26,11 @@
         </v-form>
       </v-flex>
     </v-layout>
-    <v-alert :value="alert" color="error" icon="warning" outline>{{alertMessage}}</v-alert>
+    <v-layout row justify-center="">
+      <v-flex xs6 md6 v-if="myError != null">
+        <v-alert :value="myError" color="error" icon="warning" dismissible >{{myError.message}}</v-alert>
+      </v-flex>
+    </v-layout>
     <!-- footer nav -->
     <v-footer height="auto" class="pa-3">
       <v-layout justify-center row wrap>
@@ -63,7 +67,11 @@ export default {
   computed:{
     user(){
       return this.$store.getters.user
+    },
+    myError(){
+      return this.$store.getters.errObj
     }
+
   },
   watch:{
     user(value){
