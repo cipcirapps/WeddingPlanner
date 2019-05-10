@@ -56,7 +56,7 @@
           wrap
         >       
             <v-flex xs4>
-              <v-btn  @click="submit" color="accent">Update</v-btn>
+              <v-btn  @click="submit" color="accent">Add</v-btn>
             </v-flex>
             <v-flex xs4>  
               <v-btn color="black" outline :to="'/'">Cancel</v-btn>          
@@ -128,7 +128,7 @@ export default {
         // payload.Locatie=vueObj.output.Locatie
         // payload.Nume=vueObj.output.Nume
         // payload.Status=vueObj.output.Status
-
+// console.log(this.output)
         this.$store.dispatch("add_Fam", this.output);
 
         // vueObj.output.Membri.forEach(om=>{
@@ -143,6 +143,12 @@ export default {
         // })
 
         this.$router.push("/");
+          //  this.output.Membri= []
+          //  this.output.Nume= null
+              // Status: "De invitat"O
+            
+            
+            
       }
     }
   }
