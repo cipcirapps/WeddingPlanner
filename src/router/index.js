@@ -14,6 +14,7 @@ import login from "@/components/Login";
 import Cip from "@/components/test/cip";
 import Ramo from "@/components/test/ramo";
 import AuthGuard from "./auth-guard"
+import overview from "@/components/overview";
 Vue.use(Router);
 
 export default new Router({
@@ -41,6 +42,12 @@ export default new Router({
       component: view_all,
       beforeEnter:AuthGuard.guardAdmin
     },
+    {
+      path: "/overview",
+      name: "overview",
+      component: overview,
+      beforeEnter:AuthGuard.guardAdmin
+    },    
     {
       path: "/layout",
       name: "layout",

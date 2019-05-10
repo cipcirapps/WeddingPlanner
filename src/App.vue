@@ -99,8 +99,8 @@ export default {
       return this.$store.getters.loaded;
     },
     menuItems(){
-      let menuItems=[{
-         icon: "contacts", title: "Confirmati", link: "/confirmed"},
+      let menuItems=[
+        {icon: "contacts", title: "Confirmati", link: "/confirmed"},
          {icon: "people", title: "Login", link: "/login" 
       }]
       if(this.userIsAuthenticated){
@@ -110,6 +110,7 @@ export default {
           { icon: "contacts", title: "Confirmati", link: "/confirmed" },
           { icon: "people", title: "Toate Fams", link: "/view_all" },
           { icon: "view_module", title: "Asezare", link: "/layout" },
+          { icon: "supervisor_account", title: "Overview", link: "/overview" },
           // { icon: "supervisor_account", title: "Test Cip", link: "/cip" },
           // { icon: "person", title: "Test Ramo", link: "/ramo" }
           ]
