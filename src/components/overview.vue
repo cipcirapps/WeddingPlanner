@@ -7,7 +7,7 @@
       <v-flex xs5>
         <v-text-field v-model="PrenumeFilter" clearable label="Cauta nume"></v-text-field>
       </v-flex>
-    </v-layout> -->
+    </v-layout>-->
     <!-- tabel -->
     <v-card>
       <!-- header -->
@@ -16,7 +16,7 @@
           <span class="text-uppercase">Prenume</span> Nume
         </v-flex>
         <v-flex xs12 sm2>Locatie</v-flex>
-        <v-flex xs12 sm2>Masa : Loc</v-flex>
+        <!-- <v-flex xs12 sm2>Masa : Loc</v-flex> -->
         <v-flex xs12 sm3 class="text-xs-right">Actions</v-flex>
       </v-layout>
 
@@ -29,23 +29,20 @@
           wrap
         >
           <v-flex class="font-weight-bold" xs6 sm5>
-            <span class="mb-0 mr-2 text-uppercase">{{fam.Nume}}</span>            
+            <span class="mb-0 mr-2 text-uppercase">{{fam.Nume}}</span>
           </v-flex>
           <v-flex xs6 sm2>{{fam.Locatie}}</v-flex>
-          <v-flex xs6 sm2 class="text-xs-center subheading">
-            <v-chip outline color="black">{{fam.Masa}}</v-chip>
-            <v-icon small left color="blue">event_seat</v-icon>
-            <span class="blue--text text--darken-4">{{fam.Loc}}</span>
-          </v-flex>
-          <v-flex xs6 sm3>
-            <v-layout v-for="indiv in fam.Membri" :key="indiv.id" >
+          <!-- <v-flex xs6 sm2 class="text-xs-center subheading"></v-flex> -->
+          <v-flex xs6 sm5>
+            <v-layout v-for="indiv in fam.Membri" :key="indiv.id">
+              <v-chip outline color="black">{{indiv.Masa}}</v-chip>
+              <v-icon small left color="blue">event_seat</v-icon>
+              <span class="blue--text text--darken-4">{{indiv.Loc}}</span>
               <v-flex>{{indiv.Prenume}}</v-flex>
             </v-layout>
           </v-flex>
-        
         </v-layout>
       </div>
-
     </v-card>
   </v-container>
 </template>
@@ -83,12 +80,11 @@ export default {
       }
 
       Object.keys(grupati).forEach(function(key) {
-        grupati[key].sort(sortName)
+        grupati[key].sort(sortName);
       });
 
       return grupati;
-    },
-    
+    }
   }
 };
 </script>
