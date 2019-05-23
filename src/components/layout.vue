@@ -1,7 +1,7 @@
 <template>
   <!-- Main content -->
   <v-container fluid fill-height>
-    <v-layout row justify-center align-center>
+    <v-layout row>
       <div class="text-xs-center">
         <svg :width="Svg.w" :height="Svg.h">
           <!-- background shapes -->
@@ -76,24 +76,27 @@ export default {
       Stage: { showRemain: false },
       MesePoz: [
         { x: 250, y: 150 }, //1
-        { x: 950, y: 150 },
-        { x: 200, y: 300 }, //3
-        { x: 950, y: 300 },
-        { x: 200, y: 450 }, //5
-        { x: 950, y: 500 },
-        { x: 200, y: 600 }, //7
-        { x: 950, y: 650 },
-        { x: 550, y: 650 }, //9
-        { x: 950, y: 800 },
-        { x: 200, y: 800 }, //11
-        { x: 950, y: 950 },
-        { x: 200, y: 950 }, //13
-        { x: 550, y: 400 },
-        { x: 550, y: 900 }, //15
+        { x: 200, y: 300 },
+        { x: 200, y: 450 }, //3
+        { x: 200, y: 600 },
+        { x: 200, y: 750 }, //5
+        { x: 200, y: 950 },
+
+        { x: 930, y: 150 }, //7
+        { x: 970, y: 300 },
+        { x: 970, y: 500 }, //9
+        { x: 970, y: 650 },
+        { x: 970, y: 800 }, //11
+        { x: 970, y: 950 },
+
+        { x: 570, y: 350 }, //13
+        { x: 570, y: 630 },
+        { x: 570, y: 850 }, //15
+
         { x: 250, y: 1350 }
       ],
       Layout: [
-        { name: "Masa Miri", x: 35, y: 1.5, w: 200, h: 50, col: "blue" },
+        { name: "Masa Miri", x: 39, y: 1.5, w: 200, h: 50, col: "blue" },
         { name: "usa", x: 98, y: 25, w: 10, h: 50, col: "red" },
         { name: "usaB1", x: 0, y: 75, w: 10, h: 50, col: "red" },
         { name: "usaB2", x: 0, y: 85, w: 10, h: 50, col: "red" },
@@ -101,11 +104,11 @@ export default {
 
         { name: "Col 1.1", x: 30, y: 30, w: 50, h: 50, col: "#f3f0f0" },
         { name: "Col 1.2", x: 30, y: 50, w: 50, h: 50, col: "#f3f0f0" },
-        { name: "Col 1.3", x: 30, y: 70, w: 50, h: 50, col: "#f3f0f0" },
+        { name: "Col 1.3", x: 30, y: 67, w: 50, h: 50, col: "#f3f0f0" },
 
         { name: "Col 2.1", x: 60, y: 30, w: 50, h: 50, col: "#f3f0f0" },
         { name: "Col 2.2", x: 60, y: 50, w: 50, h: 50, col: "#f3f0f0" },
-        { name: "Col 2.3", x: 60, y: 70, w: 50, h: 50, col: "#f3f0f0" },
+        { name: "Col 2.3", x: 60, y: 67, w: 50, h: 50, col: "#f3f0f0" },
 
         { name: "Scena", x: 28, y: 95, w: 350, h: 50, col: "lightblue" }
       ],
